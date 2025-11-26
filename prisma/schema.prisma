@@ -1,0 +1,471 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ============================================
+// USER MANAGEMENT & AUTHENTICATION
+// ============================================
+
+// Purpose: Store user accounts with role-based access control
+// Supports Super Admin, Admin, Staff (admin roles) and Client users
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  STAFF
+  CLIENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING
+}
+
+model User {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  password      String       // Hashed password
+  firstName     String?
+  lastName      String?
+  role          UserRole     @default(CLIENT)
+  status        UserStatus   @default(PENDING)
+  emailVerified Boolean      @default(false)
+  
+  // Timestamps
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  lastLoginAt   DateTime?
+  
+  // Relations
+  client        Client?      // One-to-one: if role is CLIENT
+  sessions      Session[]
+  notifications Notification[]
+  activityLogs  ActivityLog[]
+  
+  @@index([email])
+  @@index([role, status])
+  @@map("users")
+}
+
+// Purpose: Manage user sessions for authentication
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  token        String   @unique
+  expiresAt    DateTime
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([token])
+  @@map("sessions")
+}
+
+// ============================================
+// CLIENT & SUBSCRIPTION MANAGEMENT
+// ============================================
+
+// Purpose: Store client-specific data and link to their user account
+model Client {
+  id              String          @id @default(cuid())
+  userId          String          @unique
+  companyName     String?
+  phoneNumber     String?
+  
+  // API Key Management
+  apiKey          String          @unique @default(cuid())
+  apiKeyIssuedAt  DateTime        @default(now())
+  apiKeyExpiresAt DateTime?
+  apiKeyStatus    ApiKeyStatus    @default(ACTIVE)
+  
+  // Usage Tracking
+  usageCount      Int             @default(0)
+  usageLimit      Int             @default(0) // Based on subscription plan
+  lastUsedAt      DateTime?
+  
+  // Timestamps
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  
+  // Relations
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptions   Subscription[]
+  copiedData      CopiedData[]
+  payments        Payment[]
+  
+  @@index([apiKey])
+  @@index([userId])
+  @@index([apiKeyStatus])
+  @@map("clients")
+}
+
+enum ApiKeyStatus {
+  ACTIVE
+  INACTIVE
+  REVOKED
+  EXPIRED
+}
+
+// ============================================
+// SUBSCRIPTION & PRICING PLANS
+// ============================================
+
+// Purpose: Define pricing plans that admin can manage from admin panel
+enum PlanType {
+  FREE
+  STARTER
+  PROFESSIONAL
+  ENTERPRISE
+  CUSTOM
+}
+
+enum PlanInterval {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+  LIFETIME
+}
+
+model Plan {
+  id            String         @id @default(cuid())
+  name          String
+  displayName   String
+  description   String?
+  type          PlanType
+  interval      PlanInterval
+  price         Decimal        @db.Decimal(10, 2)
+  currency      String         @default("USD")
+  
+  // Features and Limits
+  usageLimit    Int            // Number of copies/hits allowed
+  features      Json           // Array of feature strings
+  isActive      Boolean        @default(true)
+  isPopular     Boolean        @default(false)
+  sortOrder     Int            @default(0)
+  
+  // Timestamps
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  // Relations
+  subscriptions Subscription[]
+  
+  @@index([isActive, sortOrder])
+  @@map("plans")
+}
+
+// Purpose: Track client subscriptions to plans
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PAUSED
+  PENDING_PAYMENT
+}
+
+model Subscription {
+  id                String             @id @default(cuid())
+  clientId          String
+  planId            String
+  
+  status            SubscriptionStatus @default(PENDING_PAYMENT)
+  startDate         DateTime?
+  endDate           DateTime?
+  autoRenew         Boolean            @default(true)
+  
+  // Custom limits (admin can override plan limits)
+  customUsageLimit  Int?
+  
+  // Stripe Integration
+  stripeSubscriptionId String?         @unique
+  stripePriceId        String?
+  
+  // Timestamps
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  cancelledAt       DateTime?
+  
+  // Relations
+  client            Client             @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  plan              Plan               @relation(fields: [planId], references: [id])
+  
+  @@index([clientId, status])
+  @@index([stripeSubscriptionId])
+  @@map("subscriptions")
+}
+
+// ============================================
+// PAYMENT PROCESSING
+// ============================================
+
+// Purpose: Track all payment transactions via Stripe
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+model Payment {
+  id                  String        @id @default(cuid())
+  clientId            String
+  
+  // Payment Details
+  amount              Decimal       @db.Decimal(10, 2)
+  currency            String        @default("USD")
+  status              PaymentStatus @default(PENDING)
+  
+  // Stripe Integration
+  stripePaymentIntentId String?     @unique
+  stripeChargeId        String?
+  stripeInvoiceId       String?
+  stripeCustomerId      String?
+  
+  // Metadata
+  description         String?
+  metadata            Json?
+  failureReason       String?
+  
+  // Timestamps
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  paidAt              DateTime?
+  
+  // Relations
+  client              Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  @@index([clientId, status])
+  @@index([stripePaymentIntentId])
+  @@index([createdAt])
+  @@map("payments")
+}
+
+// ============================================
+// COPIED DATA MANAGEMENT
+// ============================================
+
+// Purpose: Store data copied from Amazon via Chrome Extension
+// This data is synced and displayed on client dashboard
+model CopiedData {
+  id              String   @id @default(cuid())
+  clientId        String
+  
+  // Amazon Product Data
+  productTitle    String
+  productAsin     String?
+  productPrice    Decimal? @db.Decimal(10, 2)
+  productImage    String?
+  productUrl      String?
+  productData     Json     // Complete product data in JSON format
+  
+  // TikTok Shop Data (if pasted)
+  tiktokShopUrl   String?
+  tiktokStatus    String?
+  pastedAt        DateTime?
+  
+  // Metadata
+  copiedFrom      String?  // Browser info
+  userAgent       String?
+  
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relations
+  client          Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  @@index([clientId, createdAt])
+  @@index([productAsin])
+  @@map("copied_data")
+}
+
+// ============================================
+// WEBSITE CONTENT MANAGEMENT
+// ============================================
+
+// Purpose: Manage dynamic content on landing page (Pricing & Promotions)
+enum ContentType {
+  PRICING_SECTION
+  PROMOTION_SECTION
+  ALERT_BANNER
+  FAQ_SECTION
+  TESTIMONIAL
+}
+
+model Content {
+  id          String      @id @default(cuid())
+  type        ContentType
+  title       String
+  content     Json        // Flexible JSON structure for different content types
+  isActive    Boolean     @default(true)
+  sortOrder   Int         @default(0)
+  
+  // Timestamps
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  publishedAt DateTime?
+  
+  @@index([type, isActive, sortOrder])
+  @@map("contents")
+}
+
+// Purpose: Store website branding settings
+model BrandingSettings {
+  id              String   @id @default(cuid())
+  logoUrl         String?
+  faviconUrl      String?
+  primaryColor    String?
+  secondaryColor  String?
+  fontFamily      String?
+  companyName     String?
+  tagline         String?
+  
+  // Contact Info
+  email           String?
+  phone           String?
+  address         String?
+  
+  // Social Links
+  socialLinks     Json?    // {facebook, twitter, linkedin, etc.}
+  
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("branding_settings")
+}
+
+// ============================================
+// NOTIFICATIONS & ACTIVITY LOGS
+// ============================================
+
+// Purpose: Store notifications for admin (payment alerts, new signups, etc.)
+enum NotificationType {
+  NEW_SIGNUP
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  SUBSCRIPTION_EXPIRED
+  API_KEY_GENERATED
+  USAGE_LIMIT_REACHED
+  SYSTEM_ALERT
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String           // Admin user who receives this
+  type        NotificationType
+  title       String
+  message     String
+  metadata    Json?
+  isRead      Boolean          @default(false)
+  readAt      DateTime?
+  
+  createdAt   DateTime         @default(now())
+  
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, isRead, createdAt])
+  @@map("notifications")
+}
+
+// Purpose: Track all admin and user activities for audit trail
+enum ActivityType {
+  USER_LOGIN
+  USER_LOGOUT
+  USER_CREATED
+  USER_UPDATED
+  USER_DELETED
+  CLIENT_ACTIVATED
+  CLIENT_DEACTIVATED
+  API_KEY_GENERATED
+  API_KEY_REVOKED
+  PAYMENT_PROCESSED
+  PLAN_UPDATED
+  CONTENT_UPDATED
+  LIMIT_INCREASED
+  DATA_COPIED
+  SUBSCRIPTION_CREATED
+  SUBSCRIPTION_CANCELLED
+}
+
+model ActivityLog {
+  id          String       @id @default(cuid())
+  userId      String?
+  actorEmail  String?      // Email of person who performed action
+  type        ActivityType
+  description String
+  metadata    Json?
+  ipAddress   String?
+  userAgent   String?
+  
+  createdAt   DateTime     @default(now())
+  
+  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([userId, createdAt])
+  @@index([type, createdAt])
+  @@map("activity_logs")
+}
+
+// ============================================
+// SYSTEM CONFIGURATION
+// ============================================
+
+// Purpose: Store system-wide configuration settings
+model SystemConfig {
+  id                      String   @id @default(cuid())
+  key                     String   @unique
+  value                   String
+  description             String?
+  isEditable              Boolean  @default(true)
+  
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  
+  @@map("system_config")
+}
+
+// ============================================
+// EMAIL TEMPLATES
+// ============================================
+
+// Purpose: Manage email templates for automated notifications
+enum EmailTemplateType {
+  WELCOME_EMAIL
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  SUBSCRIPTION_EXPIRING
+  SUBSCRIPTION_EXPIRED
+  API_KEY_ISSUED
+  PASSWORD_RESET
+  EMAIL_VERIFICATION
+}
+
+model EmailTemplate {
+  id          String            @id @default(cuid())
+  type        EmailTemplateType @unique
+  subject     String
+  body        String            @db.Text // HTML email body with variables
+  variables   Json?             // Available variables for this template
+  isActive    Boolean           @default(true)
+  
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  
+  @@map("email_templates")
+}
