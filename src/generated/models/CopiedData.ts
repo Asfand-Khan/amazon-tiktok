@@ -27,16 +27,20 @@ export type AggregateCopiedData = {
 }
 
 export type CopiedDataAvgAggregateOutputType = {
+  id: number | null
+  clientId: number | null
   productPrice: runtime.Decimal | null
 }
 
 export type CopiedDataSumAggregateOutputType = {
+  id: number | null
+  clientId: number | null
   productPrice: runtime.Decimal | null
 }
 
 export type CopiedDataMinAggregateOutputType = {
-  id: string | null
-  clientId: string | null
+  id: number | null
+  clientId: number | null
   productTitle: string | null
   productAsin: string | null
   productPrice: runtime.Decimal | null
@@ -52,8 +56,8 @@ export type CopiedDataMinAggregateOutputType = {
 }
 
 export type CopiedDataMaxAggregateOutputType = {
-  id: string | null
-  clientId: string | null
+  id: number | null
+  clientId: number | null
   productTitle: string | null
   productAsin: string | null
   productPrice: runtime.Decimal | null
@@ -89,10 +93,14 @@ export type CopiedDataCountAggregateOutputType = {
 
 
 export type CopiedDataAvgAggregateInputType = {
+  id?: true
+  clientId?: true
   productPrice?: true
 }
 
 export type CopiedDataSumAggregateInputType = {
+  id?: true
+  clientId?: true
   productPrice?: true
 }
 
@@ -236,8 +244,8 @@ export type CopiedDataGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 export type CopiedDataGroupByOutputType = {
-  id: string
-  clientId: string
+  id: number
+  clientId: number
   productTitle: string
   productAsin: string | null
   productPrice: runtime.Decimal | null
@@ -277,8 +285,8 @@ export type CopiedDataWhereInput = {
   AND?: Prisma.CopiedDataWhereInput | Prisma.CopiedDataWhereInput[]
   OR?: Prisma.CopiedDataWhereInput[]
   NOT?: Prisma.CopiedDataWhereInput | Prisma.CopiedDataWhereInput[]
-  id?: Prisma.StringFilter<"CopiedData"> | string
-  clientId?: Prisma.StringFilter<"CopiedData"> | string
+  id?: Prisma.IntFilter<"CopiedData"> | number
+  clientId?: Prisma.IntFilter<"CopiedData"> | number
   productTitle?: Prisma.StringFilter<"CopiedData"> | string
   productAsin?: Prisma.StringNullableFilter<"CopiedData"> | string | null
   productPrice?: Prisma.DecimalNullableFilter<"CopiedData"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -316,11 +324,11 @@ export type CopiedDataOrderByWithRelationInput = {
 }
 
 export type CopiedDataWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.CopiedDataWhereInput | Prisma.CopiedDataWhereInput[]
   OR?: Prisma.CopiedDataWhereInput[]
   NOT?: Prisma.CopiedDataWhereInput | Prisma.CopiedDataWhereInput[]
-  clientId?: Prisma.StringFilter<"CopiedData"> | string
+  clientId?: Prisma.IntFilter<"CopiedData"> | number
   productTitle?: Prisma.StringFilter<"CopiedData"> | string
   productAsin?: Prisma.StringNullableFilter<"CopiedData"> | string | null
   productPrice?: Prisma.DecimalNullableFilter<"CopiedData"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -364,8 +372,8 @@ export type CopiedDataScalarWhereWithAggregatesInput = {
   AND?: Prisma.CopiedDataScalarWhereWithAggregatesInput | Prisma.CopiedDataScalarWhereWithAggregatesInput[]
   OR?: Prisma.CopiedDataScalarWhereWithAggregatesInput[]
   NOT?: Prisma.CopiedDataScalarWhereWithAggregatesInput | Prisma.CopiedDataScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"CopiedData"> | string
-  clientId?: Prisma.StringWithAggregatesFilter<"CopiedData"> | string
+  id?: Prisma.IntWithAggregatesFilter<"CopiedData"> | number
+  clientId?: Prisma.IntWithAggregatesFilter<"CopiedData"> | number
   productTitle?: Prisma.StringWithAggregatesFilter<"CopiedData"> | string
   productAsin?: Prisma.StringNullableWithAggregatesFilter<"CopiedData"> | string | null
   productPrice?: Prisma.DecimalNullableWithAggregatesFilter<"CopiedData"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -382,7 +390,6 @@ export type CopiedDataScalarWhereWithAggregatesInput = {
 }
 
 export type CopiedDataCreateInput = {
-  id?: string
   productTitle: string
   productAsin?: string | null
   productPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -400,8 +407,8 @@ export type CopiedDataCreateInput = {
 }
 
 export type CopiedDataUncheckedCreateInput = {
-  id?: string
-  clientId: string
+  id?: number
+  clientId: number
   productTitle: string
   productAsin?: string | null
   productPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -418,7 +425,6 @@ export type CopiedDataUncheckedCreateInput = {
 }
 
 export type CopiedDataUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -436,8 +442,8 @@ export type CopiedDataUpdateInput = {
 }
 
 export type CopiedDataUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  clientId?: Prisma.IntFieldUpdateOperationsInput | number
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -454,8 +460,8 @@ export type CopiedDataUncheckedUpdateInput = {
 }
 
 export type CopiedDataCreateManyInput = {
-  id?: string
-  clientId: string
+  id?: number
+  clientId: number
   productTitle: string
   productAsin?: string | null
   productPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -472,7 +478,6 @@ export type CopiedDataCreateManyInput = {
 }
 
 export type CopiedDataUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -489,8 +494,8 @@ export type CopiedDataUpdateManyMutationInput = {
 }
 
 export type CopiedDataUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  clientId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  clientId?: Prisma.IntFieldUpdateOperationsInput | number
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -541,6 +546,8 @@ export type CopiedDataCountOrderByAggregateInput = {
 }
 
 export type CopiedDataAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
   productPrice?: Prisma.SortOrder
 }
 
@@ -579,6 +586,8 @@ export type CopiedDataMinOrderByAggregateInput = {
 }
 
 export type CopiedDataSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
   productPrice?: Prisma.SortOrder
 }
 
@@ -633,7 +642,6 @@ export type NullableDecimalFieldUpdateOperationsInput = {
 }
 
 export type CopiedDataCreateWithoutClientInput = {
-  id?: string
   productTitle: string
   productAsin?: string | null
   productPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -650,7 +658,7 @@ export type CopiedDataCreateWithoutClientInput = {
 }
 
 export type CopiedDataUncheckedCreateWithoutClientInput = {
-  id?: string
+  id?: number
   productTitle: string
   productAsin?: string | null
   productPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -696,8 +704,8 @@ export type CopiedDataScalarWhereInput = {
   AND?: Prisma.CopiedDataScalarWhereInput | Prisma.CopiedDataScalarWhereInput[]
   OR?: Prisma.CopiedDataScalarWhereInput[]
   NOT?: Prisma.CopiedDataScalarWhereInput | Prisma.CopiedDataScalarWhereInput[]
-  id?: Prisma.StringFilter<"CopiedData"> | string
-  clientId?: Prisma.StringFilter<"CopiedData"> | string
+  id?: Prisma.IntFilter<"CopiedData"> | number
+  clientId?: Prisma.IntFilter<"CopiedData"> | number
   productTitle?: Prisma.StringFilter<"CopiedData"> | string
   productAsin?: Prisma.StringNullableFilter<"CopiedData"> | string | null
   productPrice?: Prisma.DecimalNullableFilter<"CopiedData"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -714,7 +722,7 @@ export type CopiedDataScalarWhereInput = {
 }
 
 export type CopiedDataCreateManyClientInput = {
-  id?: string
+  id?: number
   productTitle: string
   productAsin?: string | null
   productPrice?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -731,7 +739,6 @@ export type CopiedDataCreateManyClientInput = {
 }
 
 export type CopiedDataUpdateWithoutClientInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -748,7 +755,7 @@ export type CopiedDataUpdateWithoutClientInput = {
 }
 
 export type CopiedDataUncheckedUpdateWithoutClientInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -765,7 +772,7 @@ export type CopiedDataUncheckedUpdateWithoutClientInput = {
 }
 
 export type CopiedDataUncheckedUpdateManyWithoutClientInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   productTitle?: Prisma.StringFieldUpdateOperationsInput | string
   productAsin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   productPrice?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
@@ -833,8 +840,8 @@ export type $CopiedDataPayload<ExtArgs extends runtime.Types.Extensions.Internal
     client: Prisma.$ClientPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    clientId: string
+    id: number
+    clientId: number
     productTitle: string
     productAsin: string | null
     productPrice: runtime.Decimal | null
@@ -1218,8 +1225,8 @@ export interface Prisma__CopiedDataClient<T, Null = never, ExtArgs extends runti
  * Fields of the CopiedData model
  */
 export interface CopiedDataFieldRefs {
-  readonly id: Prisma.FieldRef<"CopiedData", 'String'>
-  readonly clientId: Prisma.FieldRef<"CopiedData", 'String'>
+  readonly id: Prisma.FieldRef<"CopiedData", 'Int'>
+  readonly clientId: Prisma.FieldRef<"CopiedData", 'Int'>
   readonly productTitle: Prisma.FieldRef<"CopiedData", 'String'>
   readonly productAsin: Prisma.FieldRef<"CopiedData", 'String'>
   readonly productPrice: Prisma.FieldRef<"CopiedData", 'Decimal'>

@@ -20,10 +20,12 @@ const handleValidationErrorDB = (err: any) => {
 };
 
 const sendErrorDev = (err: AppError, res: Response) => {
+  logger.error('ERROR 💥', err);
   res.status(err.statusCode).json({
     status: err.status,
     error: err,
     message: err.message,
+    errors: err.errors,
     stack: err.stack,
   });
 };
@@ -31,9 +33,14 @@ const sendErrorDev = (err: AppError, res: Response) => {
 const sendErrorProd = (err: AppError, res: Response) => {
   // Operational, trusted error: send message to client
   if (err.isOperational) {
+    logger.warn('OPERATIONAL ERROR 💥', {
+      message: err.message,
+      errors: err.errors,
+    });
     res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
+      errors: err.errors,
     });
   }
   // Programming or other unknown error: don't leak error details

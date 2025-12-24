@@ -20,12 +20,22 @@ export type BrandingSettingsModel = runtime.Types.Result.DefaultSelection<Prisma
 
 export type AggregateBrandingSettings = {
   _count: BrandingSettingsCountAggregateOutputType | null
+  _avg: BrandingSettingsAvgAggregateOutputType | null
+  _sum: BrandingSettingsSumAggregateOutputType | null
   _min: BrandingSettingsMinAggregateOutputType | null
   _max: BrandingSettingsMaxAggregateOutputType | null
 }
 
+export type BrandingSettingsAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type BrandingSettingsSumAggregateOutputType = {
+  id: number | null
+}
+
 export type BrandingSettingsMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   logoUrl: string | null
   faviconUrl: string | null
   primaryColor: string | null
@@ -44,7 +54,7 @@ export type BrandingSettingsMinAggregateOutputType = {
 }
 
 export type BrandingSettingsMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   logoUrl: string | null
   faviconUrl: string | null
   primaryColor: string | null
@@ -83,6 +93,14 @@ export type BrandingSettingsCountAggregateOutputType = {
   _all: number
 }
 
+
+export type BrandingSettingsAvgAggregateInputType = {
+  id?: true
+}
+
+export type BrandingSettingsSumAggregateInputType = {
+  id?: true
+}
 
 export type BrandingSettingsMinAggregateInputType = {
   id?: true
@@ -181,6 +199,18 @@ export type BrandingSettingsAggregateArgs<ExtArgs extends runtime.Types.Extensio
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: BrandingSettingsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: BrandingSettingsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: BrandingSettingsMinAggregateInputType
@@ -211,12 +241,14 @@ export type BrandingSettingsGroupByArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   _count?: BrandingSettingsCountAggregateInputType | true
+  _avg?: BrandingSettingsAvgAggregateInputType
+  _sum?: BrandingSettingsSumAggregateInputType
   _min?: BrandingSettingsMinAggregateInputType
   _max?: BrandingSettingsMaxAggregateInputType
 }
 
 export type BrandingSettingsGroupByOutputType = {
-  id: string
+  id: number
   logoUrl: string | null
   faviconUrl: string | null
   primaryColor: string | null
@@ -234,6 +266,8 @@ export type BrandingSettingsGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: BrandingSettingsCountAggregateOutputType | null
+  _avg: BrandingSettingsAvgAggregateOutputType | null
+  _sum: BrandingSettingsSumAggregateOutputType | null
   _min: BrandingSettingsMinAggregateOutputType | null
   _max: BrandingSettingsMaxAggregateOutputType | null
 }
@@ -257,7 +291,7 @@ export type BrandingSettingsWhereInput = {
   AND?: Prisma.BrandingSettingsWhereInput | Prisma.BrandingSettingsWhereInput[]
   OR?: Prisma.BrandingSettingsWhereInput[]
   NOT?: Prisma.BrandingSettingsWhereInput | Prisma.BrandingSettingsWhereInput[]
-  id?: Prisma.StringFilter<"BrandingSettings"> | string
+  id?: Prisma.IntFilter<"BrandingSettings"> | number
   logoUrl?: Prisma.StringNullableFilter<"BrandingSettings"> | string | null
   faviconUrl?: Prisma.StringNullableFilter<"BrandingSettings"> | string | null
   primaryColor?: Prisma.StringNullableFilter<"BrandingSettings"> | string | null
@@ -298,7 +332,7 @@ export type BrandingSettingsOrderByWithRelationInput = {
 }
 
 export type BrandingSettingsWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.BrandingSettingsWhereInput | Prisma.BrandingSettingsWhereInput[]
   OR?: Prisma.BrandingSettingsWhereInput[]
   NOT?: Prisma.BrandingSettingsWhereInput | Prisma.BrandingSettingsWhereInput[]
@@ -339,15 +373,17 @@ export type BrandingSettingsOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BrandingSettingsCountOrderByAggregateInput
+  _avg?: Prisma.BrandingSettingsAvgOrderByAggregateInput
   _max?: Prisma.BrandingSettingsMaxOrderByAggregateInput
   _min?: Prisma.BrandingSettingsMinOrderByAggregateInput
+  _sum?: Prisma.BrandingSettingsSumOrderByAggregateInput
 }
 
 export type BrandingSettingsScalarWhereWithAggregatesInput = {
   AND?: Prisma.BrandingSettingsScalarWhereWithAggregatesInput | Prisma.BrandingSettingsScalarWhereWithAggregatesInput[]
   OR?: Prisma.BrandingSettingsScalarWhereWithAggregatesInput[]
   NOT?: Prisma.BrandingSettingsScalarWhereWithAggregatesInput | Prisma.BrandingSettingsScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"BrandingSettings"> | string
+  id?: Prisma.IntWithAggregatesFilter<"BrandingSettings"> | number
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"BrandingSettings"> | string | null
   faviconUrl?: Prisma.StringNullableWithAggregatesFilter<"BrandingSettings"> | string | null
   primaryColor?: Prisma.StringNullableWithAggregatesFilter<"BrandingSettings"> | string | null
@@ -367,7 +403,6 @@ export type BrandingSettingsScalarWhereWithAggregatesInput = {
 }
 
 export type BrandingSettingsCreateInput = {
-  id?: string
   logoUrl?: string | null
   faviconUrl?: string | null
   primaryColor?: string | null
@@ -387,7 +422,7 @@ export type BrandingSettingsCreateInput = {
 }
 
 export type BrandingSettingsUncheckedCreateInput = {
-  id?: string
+  id?: number
   logoUrl?: string | null
   faviconUrl?: string | null
   primaryColor?: string | null
@@ -407,7 +442,6 @@ export type BrandingSettingsUncheckedCreateInput = {
 }
 
 export type BrandingSettingsUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -427,7 +461,7 @@ export type BrandingSettingsUpdateInput = {
 }
 
 export type BrandingSettingsUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -447,7 +481,7 @@ export type BrandingSettingsUncheckedUpdateInput = {
 }
 
 export type BrandingSettingsCreateManyInput = {
-  id?: string
+  id?: number
   logoUrl?: string | null
   faviconUrl?: string | null
   primaryColor?: string | null
@@ -467,7 +501,6 @@ export type BrandingSettingsCreateManyInput = {
 }
 
 export type BrandingSettingsUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -487,7 +520,7 @@ export type BrandingSettingsUpdateManyMutationInput = {
 }
 
 export type BrandingSettingsUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   faviconUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -532,6 +565,10 @@ export type BrandingSettingsCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type BrandingSettingsAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type BrandingSettingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
@@ -568,6 +605,10 @@ export type BrandingSettingsMinOrderByAggregateInput = {
   metaKeywords?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type BrandingSettingsSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 
@@ -620,7 +661,7 @@ export type $BrandingSettingsPayload<ExtArgs extends runtime.Types.Extensions.In
   name: "BrandingSettings"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     logoUrl: string | null
     faviconUrl: string | null
     primaryColor: string | null
@@ -1006,7 +1047,7 @@ export interface Prisma__BrandingSettingsClient<T, Null = never, ExtArgs extends
  * Fields of the BrandingSettings model
  */
 export interface BrandingSettingsFieldRefs {
-  readonly id: Prisma.FieldRef<"BrandingSettings", 'String'>
+  readonly id: Prisma.FieldRef<"BrandingSettings", 'Int'>
   readonly logoUrl: Prisma.FieldRef<"BrandingSettings", 'String'>
   readonly faviconUrl: Prisma.FieldRef<"BrandingSettings", 'String'>
   readonly primaryColor: Prisma.FieldRef<"BrandingSettings", 'String'>

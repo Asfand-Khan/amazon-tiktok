@@ -20,12 +20,22 @@ export type EmailTemplateModel = runtime.Types.Result.DefaultSelection<Prisma.$E
 
 export type AggregateEmailTemplate = {
   _count: EmailTemplateCountAggregateOutputType | null
+  _avg: EmailTemplateAvgAggregateOutputType | null
+  _sum: EmailTemplateSumAggregateOutputType | null
   _min: EmailTemplateMinAggregateOutputType | null
   _max: EmailTemplateMaxAggregateOutputType | null
 }
 
+export type EmailTemplateAvgAggregateOutputType = {
+  id: number | null
+}
+
+export type EmailTemplateSumAggregateOutputType = {
+  id: number | null
+}
+
 export type EmailTemplateMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   type: $Enums.EmailTemplateType | null
   subject: string | null
   body: string | null
@@ -35,7 +45,7 @@ export type EmailTemplateMinAggregateOutputType = {
 }
 
 export type EmailTemplateMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   type: $Enums.EmailTemplateType | null
   subject: string | null
   body: string | null
@@ -56,6 +66,14 @@ export type EmailTemplateCountAggregateOutputType = {
   _all: number
 }
 
+
+export type EmailTemplateAvgAggregateInputType = {
+  id?: true
+}
+
+export type EmailTemplateSumAggregateInputType = {
+  id?: true
+}
 
 export type EmailTemplateMinAggregateInputType = {
   id?: true
@@ -127,6 +145,18 @@ export type EmailTemplateAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: EmailTemplateAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: EmailTemplateSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: EmailTemplateMinAggregateInputType
@@ -157,12 +187,14 @@ export type EmailTemplateGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: EmailTemplateCountAggregateInputType | true
+  _avg?: EmailTemplateAvgAggregateInputType
+  _sum?: EmailTemplateSumAggregateInputType
   _min?: EmailTemplateMinAggregateInputType
   _max?: EmailTemplateMaxAggregateInputType
 }
 
 export type EmailTemplateGroupByOutputType = {
-  id: string
+  id: number
   type: $Enums.EmailTemplateType
   subject: string
   body: string
@@ -171,6 +203,8 @@ export type EmailTemplateGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: EmailTemplateCountAggregateOutputType | null
+  _avg: EmailTemplateAvgAggregateOutputType | null
+  _sum: EmailTemplateSumAggregateOutputType | null
   _min: EmailTemplateMinAggregateOutputType | null
   _max: EmailTemplateMaxAggregateOutputType | null
 }
@@ -194,7 +228,7 @@ export type EmailTemplateWhereInput = {
   AND?: Prisma.EmailTemplateWhereInput | Prisma.EmailTemplateWhereInput[]
   OR?: Prisma.EmailTemplateWhereInput[]
   NOT?: Prisma.EmailTemplateWhereInput | Prisma.EmailTemplateWhereInput[]
-  id?: Prisma.StringFilter<"EmailTemplate"> | string
+  id?: Prisma.IntFilter<"EmailTemplate"> | number
   type?: Prisma.EnumEmailTemplateTypeFilter<"EmailTemplate"> | $Enums.EmailTemplateType
   subject?: Prisma.StringFilter<"EmailTemplate"> | string
   body?: Prisma.StringFilter<"EmailTemplate"> | string
@@ -217,7 +251,7 @@ export type EmailTemplateOrderByWithRelationInput = {
 }
 
 export type EmailTemplateWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   type?: $Enums.EmailTemplateType
   AND?: Prisma.EmailTemplateWhereInput | Prisma.EmailTemplateWhereInput[]
   OR?: Prisma.EmailTemplateWhereInput[]
@@ -240,15 +274,17 @@ export type EmailTemplateOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.EmailTemplateCountOrderByAggregateInput
+  _avg?: Prisma.EmailTemplateAvgOrderByAggregateInput
   _max?: Prisma.EmailTemplateMaxOrderByAggregateInput
   _min?: Prisma.EmailTemplateMinOrderByAggregateInput
+  _sum?: Prisma.EmailTemplateSumOrderByAggregateInput
 }
 
 export type EmailTemplateScalarWhereWithAggregatesInput = {
   AND?: Prisma.EmailTemplateScalarWhereWithAggregatesInput | Prisma.EmailTemplateScalarWhereWithAggregatesInput[]
   OR?: Prisma.EmailTemplateScalarWhereWithAggregatesInput[]
   NOT?: Prisma.EmailTemplateScalarWhereWithAggregatesInput | Prisma.EmailTemplateScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"EmailTemplate"> | string
+  id?: Prisma.IntWithAggregatesFilter<"EmailTemplate"> | number
   type?: Prisma.EnumEmailTemplateTypeWithAggregatesFilter<"EmailTemplate"> | $Enums.EmailTemplateType
   subject?: Prisma.StringWithAggregatesFilter<"EmailTemplate"> | string
   body?: Prisma.StringWithAggregatesFilter<"EmailTemplate"> | string
@@ -259,7 +295,6 @@ export type EmailTemplateScalarWhereWithAggregatesInput = {
 }
 
 export type EmailTemplateCreateInput = {
-  id?: string
   type: $Enums.EmailTemplateType
   subject: string
   body: string
@@ -270,7 +305,7 @@ export type EmailTemplateCreateInput = {
 }
 
 export type EmailTemplateUncheckedCreateInput = {
-  id?: string
+  id?: number
   type: $Enums.EmailTemplateType
   subject: string
   body: string
@@ -281,7 +316,6 @@ export type EmailTemplateUncheckedCreateInput = {
 }
 
 export type EmailTemplateUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumEmailTemplateTypeFieldUpdateOperationsInput | $Enums.EmailTemplateType
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -292,7 +326,7 @@ export type EmailTemplateUpdateInput = {
 }
 
 export type EmailTemplateUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumEmailTemplateTypeFieldUpdateOperationsInput | $Enums.EmailTemplateType
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -303,7 +337,7 @@ export type EmailTemplateUncheckedUpdateInput = {
 }
 
 export type EmailTemplateCreateManyInput = {
-  id?: string
+  id?: number
   type: $Enums.EmailTemplateType
   subject: string
   body: string
@@ -314,7 +348,6 @@ export type EmailTemplateCreateManyInput = {
 }
 
 export type EmailTemplateUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumEmailTemplateTypeFieldUpdateOperationsInput | $Enums.EmailTemplateType
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -325,7 +358,7 @@ export type EmailTemplateUpdateManyMutationInput = {
 }
 
 export type EmailTemplateUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumEmailTemplateTypeFieldUpdateOperationsInput | $Enums.EmailTemplateType
   subject?: Prisma.StringFieldUpdateOperationsInput | string
   body?: Prisma.StringFieldUpdateOperationsInput | string
@@ -352,6 +385,10 @@ export type EmailTemplateCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type EmailTemplateAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+}
+
 export type EmailTemplateMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
@@ -370,6 +407,10 @@ export type EmailTemplateMinOrderByAggregateInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type EmailTemplateSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
 }
 
 export type EnumEmailTemplateTypeFieldUpdateOperationsInput = {
@@ -408,7 +449,7 @@ export type $EmailTemplatePayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "EmailTemplate"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     type: $Enums.EmailTemplateType
     subject: string
     body: string
@@ -785,7 +826,7 @@ export interface Prisma__EmailTemplateClient<T, Null = never, ExtArgs extends ru
  * Fields of the EmailTemplate model
  */
 export interface EmailTemplateFieldRefs {
-  readonly id: Prisma.FieldRef<"EmailTemplate", 'String'>
+  readonly id: Prisma.FieldRef<"EmailTemplate", 'Int'>
   readonly type: Prisma.FieldRef<"EmailTemplate", 'EmailTemplateType'>
   readonly subject: Prisma.FieldRef<"EmailTemplate", 'String'>
   readonly body: Prisma.FieldRef<"EmailTemplate", 'String'>

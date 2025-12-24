@@ -20,13 +20,25 @@ export type ActivityLogModel = runtime.Types.Result.DefaultSelection<Prisma.$Act
 
 export type AggregateActivityLog = {
   _count: ActivityLogCountAggregateOutputType | null
+  _avg: ActivityLogAvgAggregateOutputType | null
+  _sum: ActivityLogSumAggregateOutputType | null
   _min: ActivityLogMinAggregateOutputType | null
   _max: ActivityLogMaxAggregateOutputType | null
 }
 
+export type ActivityLogAvgAggregateOutputType = {
+  id: number | null
+  userId: number | null
+}
+
+export type ActivityLogSumAggregateOutputType = {
+  id: number | null
+  userId: number | null
+}
+
 export type ActivityLogMinAggregateOutputType = {
-  id: string | null
-  userId: string | null
+  id: number | null
+  userId: number | null
   actorEmail: string | null
   type: $Enums.ActivityType | null
   description: string | null
@@ -36,8 +48,8 @@ export type ActivityLogMinAggregateOutputType = {
 }
 
 export type ActivityLogMaxAggregateOutputType = {
-  id: string | null
-  userId: string | null
+  id: number | null
+  userId: number | null
   actorEmail: string | null
   type: $Enums.ActivityType | null
   description: string | null
@@ -59,6 +71,16 @@ export type ActivityLogCountAggregateOutputType = {
   _all: number
 }
 
+
+export type ActivityLogAvgAggregateInputType = {
+  id?: true
+  userId?: true
+}
+
+export type ActivityLogSumAggregateInputType = {
+  id?: true
+  userId?: true
+}
 
 export type ActivityLogMinAggregateInputType = {
   id?: true
@@ -133,6 +155,18 @@ export type ActivityLogAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ActivityLogAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ActivityLogSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ActivityLogMinAggregateInputType
@@ -163,13 +197,15 @@ export type ActivityLogGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: ActivityLogCountAggregateInputType | true
+  _avg?: ActivityLogAvgAggregateInputType
+  _sum?: ActivityLogSumAggregateInputType
   _min?: ActivityLogMinAggregateInputType
   _max?: ActivityLogMaxAggregateInputType
 }
 
 export type ActivityLogGroupByOutputType = {
-  id: string
-  userId: string | null
+  id: number
+  userId: number | null
   actorEmail: string | null
   type: $Enums.ActivityType
   description: string
@@ -178,6 +214,8 @@ export type ActivityLogGroupByOutputType = {
   userAgent: string | null
   createdAt: Date
   _count: ActivityLogCountAggregateOutputType | null
+  _avg: ActivityLogAvgAggregateOutputType | null
+  _sum: ActivityLogSumAggregateOutputType | null
   _min: ActivityLogMinAggregateOutputType | null
   _max: ActivityLogMaxAggregateOutputType | null
 }
@@ -201,8 +239,8 @@ export type ActivityLogWhereInput = {
   AND?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
   OR?: Prisma.ActivityLogWhereInput[]
   NOT?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
-  id?: Prisma.StringFilter<"ActivityLog"> | string
-  userId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
+  id?: Prisma.IntFilter<"ActivityLog"> | number
+  userId?: Prisma.IntNullableFilter<"ActivityLog"> | number | null
   actorEmail?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
   type?: Prisma.EnumActivityTypeFilter<"ActivityLog"> | $Enums.ActivityType
   description?: Prisma.StringFilter<"ActivityLog"> | string
@@ -228,11 +266,11 @@ export type ActivityLogOrderByWithRelationInput = {
 }
 
 export type ActivityLogWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
   OR?: Prisma.ActivityLogWhereInput[]
   NOT?: Prisma.ActivityLogWhereInput | Prisma.ActivityLogWhereInput[]
-  userId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
+  userId?: Prisma.IntNullableFilter<"ActivityLog"> | number | null
   actorEmail?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
   type?: Prisma.EnumActivityTypeFilter<"ActivityLog"> | $Enums.ActivityType
   description?: Prisma.StringFilter<"ActivityLog"> | string
@@ -254,16 +292,18 @@ export type ActivityLogOrderByWithAggregationInput = {
   userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ActivityLogCountOrderByAggregateInput
+  _avg?: Prisma.ActivityLogAvgOrderByAggregateInput
   _max?: Prisma.ActivityLogMaxOrderByAggregateInput
   _min?: Prisma.ActivityLogMinOrderByAggregateInput
+  _sum?: Prisma.ActivityLogSumOrderByAggregateInput
 }
 
 export type ActivityLogScalarWhereWithAggregatesInput = {
   AND?: Prisma.ActivityLogScalarWhereWithAggregatesInput | Prisma.ActivityLogScalarWhereWithAggregatesInput[]
   OR?: Prisma.ActivityLogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ActivityLogScalarWhereWithAggregatesInput | Prisma.ActivityLogScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
-  userId?: Prisma.StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+  id?: Prisma.IntWithAggregatesFilter<"ActivityLog"> | number
+  userId?: Prisma.IntNullableWithAggregatesFilter<"ActivityLog"> | number | null
   actorEmail?: Prisma.StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
   type?: Prisma.EnumActivityTypeWithAggregatesFilter<"ActivityLog"> | $Enums.ActivityType
   description?: Prisma.StringWithAggregatesFilter<"ActivityLog"> | string
@@ -274,7 +314,6 @@ export type ActivityLogScalarWhereWithAggregatesInput = {
 }
 
 export type ActivityLogCreateInput = {
-  id?: string
   actorEmail?: string | null
   type: $Enums.ActivityType
   description: string
@@ -286,8 +325,8 @@ export type ActivityLogCreateInput = {
 }
 
 export type ActivityLogUncheckedCreateInput = {
-  id?: string
-  userId?: string | null
+  id?: number
+  userId?: number | null
   actorEmail?: string | null
   type: $Enums.ActivityType
   description: string
@@ -298,7 +337,6 @@ export type ActivityLogUncheckedCreateInput = {
 }
 
 export type ActivityLogUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -310,8 +348,8 @@ export type ActivityLogUpdateInput = {
 }
 
 export type ActivityLogUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -322,8 +360,8 @@ export type ActivityLogUncheckedUpdateInput = {
 }
 
 export type ActivityLogCreateManyInput = {
-  id?: string
-  userId?: string | null
+  id?: number
+  userId?: number | null
   actorEmail?: string | null
   type: $Enums.ActivityType
   description: string
@@ -334,7 +372,6 @@ export type ActivityLogCreateManyInput = {
 }
 
 export type ActivityLogUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -345,8 +382,8 @@ export type ActivityLogUpdateManyMutationInput = {
 }
 
 export type ActivityLogUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -384,6 +421,11 @@ export type ActivityLogCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type ActivityLogAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+}
+
 export type ActivityLogMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -404,6 +446,11 @@ export type ActivityLogMinOrderByAggregateInput = {
   ipAddress?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ActivityLogSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type ActivityLogCreateNestedManyWithoutUserInput = {
@@ -453,7 +500,6 @@ export type EnumActivityTypeFieldUpdateOperationsInput = {
 }
 
 export type ActivityLogCreateWithoutUserInput = {
-  id?: string
   actorEmail?: string | null
   type: $Enums.ActivityType
   description: string
@@ -464,7 +510,7 @@ export type ActivityLogCreateWithoutUserInput = {
 }
 
 export type ActivityLogUncheckedCreateWithoutUserInput = {
-  id?: string
+  id?: number
   actorEmail?: string | null
   type: $Enums.ActivityType
   description: string
@@ -504,8 +550,8 @@ export type ActivityLogScalarWhereInput = {
   AND?: Prisma.ActivityLogScalarWhereInput | Prisma.ActivityLogScalarWhereInput[]
   OR?: Prisma.ActivityLogScalarWhereInput[]
   NOT?: Prisma.ActivityLogScalarWhereInput | Prisma.ActivityLogScalarWhereInput[]
-  id?: Prisma.StringFilter<"ActivityLog"> | string
-  userId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
+  id?: Prisma.IntFilter<"ActivityLog"> | number
+  userId?: Prisma.IntNullableFilter<"ActivityLog"> | number | null
   actorEmail?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
   type?: Prisma.EnumActivityTypeFilter<"ActivityLog"> | $Enums.ActivityType
   description?: Prisma.StringFilter<"ActivityLog"> | string
@@ -516,7 +562,7 @@ export type ActivityLogScalarWhereInput = {
 }
 
 export type ActivityLogCreateManyUserInput = {
-  id?: string
+  id?: number
   actorEmail?: string | null
   type: $Enums.ActivityType
   description: string
@@ -527,7 +573,6 @@ export type ActivityLogCreateManyUserInput = {
 }
 
 export type ActivityLogUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -538,7 +583,7 @@ export type ActivityLogUpdateWithoutUserInput = {
 }
 
 export type ActivityLogUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -549,7 +594,7 @@ export type ActivityLogUncheckedUpdateWithoutUserInput = {
 }
 
 export type ActivityLogUncheckedUpdateManyWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   actorEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -599,8 +644,8 @@ export type $ActivityLogPayload<ExtArgs extends runtime.Types.Extensions.Interna
     user: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    userId: string | null
+    id: number
+    userId: number | null
     actorEmail: string | null
     type: $Enums.ActivityType
     description: string
@@ -978,8 +1023,8 @@ export interface Prisma__ActivityLogClient<T, Null = never, ExtArgs extends runt
  * Fields of the ActivityLog model
  */
 export interface ActivityLogFieldRefs {
-  readonly id: Prisma.FieldRef<"ActivityLog", 'String'>
-  readonly userId: Prisma.FieldRef<"ActivityLog", 'String'>
+  readonly id: Prisma.FieldRef<"ActivityLog", 'Int'>
+  readonly userId: Prisma.FieldRef<"ActivityLog", 'Int'>
   readonly actorEmail: Prisma.FieldRef<"ActivityLog", 'String'>
   readonly type: Prisma.FieldRef<"ActivityLog", 'ActivityType'>
   readonly description: Prisma.FieldRef<"ActivityLog", 'String'>

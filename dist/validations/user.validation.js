@@ -1,0 +1,27 @@
+import { z } from 'zod';
+export const updateUserSchema = z.object({
+    params: z.object({
+        id: z.string().regex(/^\d+$/, 'ID must be a number').transform(Number),
+    }),
+    body: z.object({
+        firstName: z.string().min(3).max(30).optional(),
+        lastName: z.string().min(3).max(30).optional(),
+        role: z.enum(['SUPER_ADMIN', 'ADMIN', 'STAFF', 'CLIENT']).optional(),
+        status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED', 'PENDING']).optional(),
+        rights: z
+            .array(z.object({
+            menuId: z.number().int().positive(),
+            canView: z.boolean().default(true),
+            canCreate: z.boolean().default(false),
+            canEdit: z.boolean().default(false),
+            canDelete: z.boolean().default(false),
+        }))
+            .optional(),
+    }),
+});
+export const userIdSchema = z.object({
+    params: z.object({
+        id: z.string().regex(/^\d+$/, 'ID must be a number').transform(Number),
+    }),
+});
+//# sourceMappingURL=user.validation.js.map

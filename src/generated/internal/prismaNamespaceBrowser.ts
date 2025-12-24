@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Session: 'Session',
+  Menu: 'Menu',
+  UserMenuRight: 'UserMenuRight',
   Client: 'Client',
   Plan: 'Plan',
   Subscription: 'Subscription',
@@ -110,6 +112,41 @@ export const SessionScalarFieldEnum = {
 } as const
 
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
+
+
+export const MenuScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId',
+  url: 'url',
+  icon: 'icon',
+  sorting: 'sorting',
+  createdBy: 'createdBy',
+  deletedBy: 'deletedBy',
+  isActive: 'isActive',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type MenuScalarFieldEnum = (typeof MenuScalarFieldEnum)[keyof typeof MenuScalarFieldEnum]
+
+
+export const UserMenuRightScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  menuId: 'menuId',
+  canView: 'canView',
+  canCreate: 'canCreate',
+  canEdit: 'canEdit',
+  canDelete: 'canDelete',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserMenuRightScalarFieldEnum = (typeof UserMenuRightScalarFieldEnum)[keyof typeof UserMenuRightScalarFieldEnum]
 
 
 export const ClientScalarFieldEnum = {
@@ -340,7 +377,6 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const UserOrderByRelevanceFieldEnum = {
-  id: 'id',
   email: 'email',
   password: 'password',
   firstName: 'firstName',
@@ -351,8 +387,6 @@ export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnu
 
 
 export const SessionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   token: 'token',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent'
@@ -361,9 +395,17 @@ export const SessionOrderByRelevanceFieldEnum = {
 export type SessionOrderByRelevanceFieldEnum = (typeof SessionOrderByRelevanceFieldEnum)[keyof typeof SessionOrderByRelevanceFieldEnum]
 
 
+export const MenuOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  url: 'url',
+  icon: 'icon'
+} as const
+
+export type MenuOrderByRelevanceFieldEnum = (typeof MenuOrderByRelevanceFieldEnum)[keyof typeof MenuOrderByRelevanceFieldEnum]
+
+
 export const ClientOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   companyName: 'companyName',
   phoneNumber: 'phoneNumber',
   apiKey: 'apiKey'
@@ -390,7 +432,6 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const PlanOrderByRelevanceFieldEnum = {
-  id: 'id',
   name: 'name',
   displayName: 'displayName',
   description: 'description',
@@ -401,9 +442,6 @@ export type PlanOrderByRelevanceFieldEnum = (typeof PlanOrderByRelevanceFieldEnu
 
 
 export const SubscriptionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  clientId: 'clientId',
-  planId: 'planId',
   stripeSubscriptionId: 'stripeSubscriptionId',
   stripePriceId: 'stripePriceId'
 } as const
@@ -412,8 +450,6 @@ export type SubscriptionOrderByRelevanceFieldEnum = (typeof SubscriptionOrderByR
 
 
 export const PaymentOrderByRelevanceFieldEnum = {
-  id: 'id',
-  clientId: 'clientId',
   currency: 'currency',
   stripePaymentIntentId: 'stripePaymentIntentId',
   stripeChargeId: 'stripeChargeId',
@@ -427,8 +463,6 @@ export type PaymentOrderByRelevanceFieldEnum = (typeof PaymentOrderByRelevanceFi
 
 
 export const CopiedDataOrderByRelevanceFieldEnum = {
-  id: 'id',
-  clientId: 'clientId',
   productTitle: 'productTitle',
   productAsin: 'productAsin',
   productImage: 'productImage',
@@ -443,7 +477,6 @@ export type CopiedDataOrderByRelevanceFieldEnum = (typeof CopiedDataOrderByRelev
 
 
 export const ContentOrderByRelevanceFieldEnum = {
-  id: 'id',
   title: 'title'
 } as const
 
@@ -451,7 +484,6 @@ export type ContentOrderByRelevanceFieldEnum = (typeof ContentOrderByRelevanceFi
 
 
 export const BrandingSettingsOrderByRelevanceFieldEnum = {
-  id: 'id',
   logoUrl: 'logoUrl',
   faviconUrl: 'faviconUrl',
   primaryColor: 'primaryColor',
@@ -471,8 +503,6 @@ export type BrandingSettingsOrderByRelevanceFieldEnum = (typeof BrandingSettings
 
 
 export const NotificationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   title: 'title',
   message: 'message'
 } as const
@@ -481,8 +511,6 @@ export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByR
 
 
 export const ActivityLogOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   actorEmail: 'actorEmail',
   description: 'description',
   ipAddress: 'ipAddress',
@@ -493,7 +521,6 @@ export type ActivityLogOrderByRelevanceFieldEnum = (typeof ActivityLogOrderByRel
 
 
 export const SystemConfigOrderByRelevanceFieldEnum = {
-  id: 'id',
   key: 'key',
   value: 'value',
   description: 'description'
@@ -503,7 +530,6 @@ export type SystemConfigOrderByRelevanceFieldEnum = (typeof SystemConfigOrderByR
 
 
 export const EmailTemplateOrderByRelevanceFieldEnum = {
-  id: 'id',
   subject: 'subject',
   body: 'body'
 } as const

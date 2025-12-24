@@ -15,18 +15,25 @@ const handleValidationErrorDB = (err) => {
     return new AppError(message, 400);
 };
 const sendErrorDev = (err, res) => {
+    logger.error('ERROR 💥', err);
     res.status(err.statusCode).json({
         status: err.status,
         error: err,
         message: err.message,
+        errors: err.errors,
         stack: err.stack,
     });
 };
 const sendErrorProd = (err, res) => {
     if (err.isOperational) {
+        logger.warn('OPERATIONAL ERROR 💥', {
+            message: err.message,
+            errors: err.errors,
+        });
         res.status(err.statusCode).json({
             status: err.status,
             message: err.message,
+            errors: err.errors,
         });
     }
     else {

@@ -27,15 +27,17 @@ export type AggregateContent = {
 }
 
 export type ContentAvgAggregateOutputType = {
+  id: number | null
   sortOrder: number | null
 }
 
 export type ContentSumAggregateOutputType = {
+  id: number | null
   sortOrder: number | null
 }
 
 export type ContentMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   type: $Enums.ContentType | null
   title: string | null
   isActive: boolean | null
@@ -46,7 +48,7 @@ export type ContentMinAggregateOutputType = {
 }
 
 export type ContentMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   type: $Enums.ContentType | null
   title: string | null
   isActive: boolean | null
@@ -71,10 +73,12 @@ export type ContentCountAggregateOutputType = {
 
 
 export type ContentAvgAggregateInputType = {
+  id?: true
   sortOrder?: true
 }
 
 export type ContentSumAggregateInputType = {
+  id?: true
   sortOrder?: true
 }
 
@@ -200,7 +204,7 @@ export type ContentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 export type ContentGroupByOutputType = {
-  id: string
+  id: number
   type: $Enums.ContentType
   title: string
   content: runtime.JsonValue
@@ -235,7 +239,7 @@ export type ContentWhereInput = {
   AND?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
   OR?: Prisma.ContentWhereInput[]
   NOT?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
-  id?: Prisma.StringFilter<"Content"> | string
+  id?: Prisma.IntFilter<"Content"> | number
   type?: Prisma.EnumContentTypeFilter<"Content"> | $Enums.ContentType
   title?: Prisma.StringFilter<"Content"> | string
   content?: Prisma.JsonFilter<"Content">
@@ -260,7 +264,7 @@ export type ContentOrderByWithRelationInput = {
 }
 
 export type ContentWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
   OR?: Prisma.ContentWhereInput[]
   NOT?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
@@ -295,7 +299,7 @@ export type ContentScalarWhereWithAggregatesInput = {
   AND?: Prisma.ContentScalarWhereWithAggregatesInput | Prisma.ContentScalarWhereWithAggregatesInput[]
   OR?: Prisma.ContentScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ContentScalarWhereWithAggregatesInput | Prisma.ContentScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Content"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Content"> | number
   type?: Prisma.EnumContentTypeWithAggregatesFilter<"Content"> | $Enums.ContentType
   title?: Prisma.StringWithAggregatesFilter<"Content"> | string
   content?: Prisma.JsonWithAggregatesFilter<"Content">
@@ -307,7 +311,6 @@ export type ContentScalarWhereWithAggregatesInput = {
 }
 
 export type ContentCreateInput = {
-  id?: string
   type: $Enums.ContentType
   title: string
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -319,7 +322,7 @@ export type ContentCreateInput = {
 }
 
 export type ContentUncheckedCreateInput = {
-  id?: string
+  id?: number
   type: $Enums.ContentType
   title: string
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -331,7 +334,6 @@ export type ContentUncheckedCreateInput = {
 }
 
 export type ContentUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -343,7 +345,7 @@ export type ContentUpdateInput = {
 }
 
 export type ContentUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -355,7 +357,7 @@ export type ContentUncheckedUpdateInput = {
 }
 
 export type ContentCreateManyInput = {
-  id?: string
+  id?: number
   type: $Enums.ContentType
   title: string
   content: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -367,7 +369,6 @@ export type ContentCreateManyInput = {
 }
 
 export type ContentUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -379,7 +380,7 @@ export type ContentUpdateManyMutationInput = {
 }
 
 export type ContentUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumContentTypeFieldUpdateOperationsInput | $Enums.ContentType
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.JsonNullValueInput | runtime.InputJsonValue
@@ -409,6 +410,7 @@ export type ContentCountOrderByAggregateInput = {
 }
 
 export type ContentAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -435,6 +437,7 @@ export type ContentMinOrderByAggregateInput = {
 }
 
 export type ContentSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -476,7 +479,7 @@ export type $ContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Content"
   objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     type: $Enums.ContentType
     title: string
     content: runtime.JsonValue
@@ -854,7 +857,7 @@ export interface Prisma__ContentClient<T, Null = never, ExtArgs extends runtime.
  * Fields of the Content model
  */
 export interface ContentFieldRefs {
-  readonly id: Prisma.FieldRef<"Content", 'String'>
+  readonly id: Prisma.FieldRef<"Content", 'Int'>
   readonly type: Prisma.FieldRef<"Content", 'ContentType'>
   readonly title: Prisma.FieldRef<"Content", 'String'>
   readonly content: Prisma.FieldRef<"Content", 'Json'>

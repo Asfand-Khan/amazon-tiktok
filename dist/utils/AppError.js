@@ -2,11 +2,13 @@ export class AppError extends Error {
     statusCode;
     status;
     isOperational;
-    constructor(message, statusCode) {
+    errors;
+    constructor(message, statusCode, errors) {
         super(message);
         this.statusCode = statusCode;
         this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
         this.isOperational = true;
+        this.errors = errors;
         Error.captureStackTrace(this, this.constructor);
     }
 }

@@ -386,6 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Session: 'Session',
+  Menu: 'Menu',
+  UserMenuRight: 'UserMenuRight',
   Client: 'Client',
   Plan: 'Plan',
   Subscription: 'Subscription',
@@ -412,7 +414,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "client" | "plan" | "subscription" | "payment" | "copiedData" | "content" | "brandingSettings" | "notification" | "activityLog" | "systemConfig" | "emailTemplate"
+    modelProps: "user" | "session" | "menu" | "userMenuRight" | "client" | "plan" | "subscription" | "payment" | "copiedData" | "content" | "brandingSettings" | "notification" | "activityLog" | "systemConfig" | "emailTemplate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -545,6 +547,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SessionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    Menu: {
+      payload: Prisma.$MenuPayload<ExtArgs>
+      fields: Prisma.MenuFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MenuFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MenuFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>
+        }
+        findFirst: {
+          args: Prisma.MenuFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MenuFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>
+        }
+        findMany: {
+          args: Prisma.MenuFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>[]
+        }
+        create: {
+          args: Prisma.MenuCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>
+        }
+        createMany: {
+          args: Prisma.MenuCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.MenuDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>
+        }
+        update: {
+          args: Prisma.MenuUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>
+        }
+        deleteMany: {
+          args: Prisma.MenuDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MenuUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.MenuUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuPayload>
+        }
+        aggregate: {
+          args: Prisma.MenuAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMenu>
+        }
+        groupBy: {
+          args: Prisma.MenuGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MenuCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MenuCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserMenuRight: {
+      payload: Prisma.$UserMenuRightPayload<ExtArgs>
+      fields: Prisma.UserMenuRightFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserMenuRightFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserMenuRightFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>
+        }
+        findFirst: {
+          args: Prisma.UserMenuRightFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserMenuRightFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>
+        }
+        findMany: {
+          args: Prisma.UserMenuRightFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>[]
+        }
+        create: {
+          args: Prisma.UserMenuRightCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>
+        }
+        createMany: {
+          args: Prisma.UserMenuRightCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.UserMenuRightDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>
+        }
+        update: {
+          args: Prisma.UserMenuRightUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserMenuRightDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserMenuRightUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.UserMenuRightUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserMenuRightPayload>
+        }
+        aggregate: {
+          args: Prisma.UserMenuRightAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserMenuRight>
+        }
+        groupBy: {
+          args: Prisma.UserMenuRightGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserMenuRightGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserMenuRightCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserMenuRightCountAggregateOutputType> | number
         }
       }
     }
@@ -1343,6 +1477,41 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const MenuScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId',
+  url: 'url',
+  icon: 'icon',
+  sorting: 'sorting',
+  createdBy: 'createdBy',
+  deletedBy: 'deletedBy',
+  isActive: 'isActive',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type MenuScalarFieldEnum = (typeof MenuScalarFieldEnum)[keyof typeof MenuScalarFieldEnum]
+
+
+export const UserMenuRightScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  menuId: 'menuId',
+  canView: 'canView',
+  canCreate: 'canCreate',
+  canEdit: 'canEdit',
+  canDelete: 'canDelete',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserMenuRightScalarFieldEnum = (typeof UserMenuRightScalarFieldEnum)[keyof typeof UserMenuRightScalarFieldEnum]
+
+
 export const ClientScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1571,7 +1740,6 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const UserOrderByRelevanceFieldEnum = {
-  id: 'id',
   email: 'email',
   password: 'password',
   firstName: 'firstName',
@@ -1582,8 +1750,6 @@ export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnu
 
 
 export const SessionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   token: 'token',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent'
@@ -1592,9 +1758,17 @@ export const SessionOrderByRelevanceFieldEnum = {
 export type SessionOrderByRelevanceFieldEnum = (typeof SessionOrderByRelevanceFieldEnum)[keyof typeof SessionOrderByRelevanceFieldEnum]
 
 
+export const MenuOrderByRelevanceFieldEnum = {
+  name: 'name',
+  description: 'description',
+  url: 'url',
+  icon: 'icon'
+} as const
+
+export type MenuOrderByRelevanceFieldEnum = (typeof MenuOrderByRelevanceFieldEnum)[keyof typeof MenuOrderByRelevanceFieldEnum]
+
+
 export const ClientOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   companyName: 'companyName',
   phoneNumber: 'phoneNumber',
   apiKey: 'apiKey'
@@ -1621,7 +1795,6 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
 export const PlanOrderByRelevanceFieldEnum = {
-  id: 'id',
   name: 'name',
   displayName: 'displayName',
   description: 'description',
@@ -1632,9 +1805,6 @@ export type PlanOrderByRelevanceFieldEnum = (typeof PlanOrderByRelevanceFieldEnu
 
 
 export const SubscriptionOrderByRelevanceFieldEnum = {
-  id: 'id',
-  clientId: 'clientId',
-  planId: 'planId',
   stripeSubscriptionId: 'stripeSubscriptionId',
   stripePriceId: 'stripePriceId'
 } as const
@@ -1643,8 +1813,6 @@ export type SubscriptionOrderByRelevanceFieldEnum = (typeof SubscriptionOrderByR
 
 
 export const PaymentOrderByRelevanceFieldEnum = {
-  id: 'id',
-  clientId: 'clientId',
   currency: 'currency',
   stripePaymentIntentId: 'stripePaymentIntentId',
   stripeChargeId: 'stripeChargeId',
@@ -1658,8 +1826,6 @@ export type PaymentOrderByRelevanceFieldEnum = (typeof PaymentOrderByRelevanceFi
 
 
 export const CopiedDataOrderByRelevanceFieldEnum = {
-  id: 'id',
-  clientId: 'clientId',
   productTitle: 'productTitle',
   productAsin: 'productAsin',
   productImage: 'productImage',
@@ -1674,7 +1840,6 @@ export type CopiedDataOrderByRelevanceFieldEnum = (typeof CopiedDataOrderByRelev
 
 
 export const ContentOrderByRelevanceFieldEnum = {
-  id: 'id',
   title: 'title'
 } as const
 
@@ -1682,7 +1847,6 @@ export type ContentOrderByRelevanceFieldEnum = (typeof ContentOrderByRelevanceFi
 
 
 export const BrandingSettingsOrderByRelevanceFieldEnum = {
-  id: 'id',
   logoUrl: 'logoUrl',
   faviconUrl: 'faviconUrl',
   primaryColor: 'primaryColor',
@@ -1702,8 +1866,6 @@ export type BrandingSettingsOrderByRelevanceFieldEnum = (typeof BrandingSettings
 
 
 export const NotificationOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   title: 'title',
   message: 'message'
 } as const
@@ -1712,8 +1874,6 @@ export type NotificationOrderByRelevanceFieldEnum = (typeof NotificationOrderByR
 
 
 export const ActivityLogOrderByRelevanceFieldEnum = {
-  id: 'id',
-  userId: 'userId',
   actorEmail: 'actorEmail',
   description: 'description',
   ipAddress: 'ipAddress',
@@ -1724,7 +1884,6 @@ export type ActivityLogOrderByRelevanceFieldEnum = (typeof ActivityLogOrderByRel
 
 
 export const SystemConfigOrderByRelevanceFieldEnum = {
-  id: 'id',
   key: 'key',
   value: 'value',
   description: 'description'
@@ -1734,7 +1893,6 @@ export type SystemConfigOrderByRelevanceFieldEnum = (typeof SystemConfigOrderByR
 
 
 export const EmailTemplateOrderByRelevanceFieldEnum = {
-  id: 'id',
   subject: 'subject',
   body: 'body'
 } as const
@@ -1746,6 +1904,13 @@ export type EmailTemplateOrderByRelevanceFieldEnum = (typeof EmailTemplateOrderB
 /**
  * Field references
  */
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
 
 
 /**
@@ -1787,13 +1952,6 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'ApiKeyStatus'
  */
 export type EnumApiKeyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApiKeyStatus'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
@@ -1961,6 +2119,8 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   session?: Prisma.SessionOmit
+  menu?: Prisma.MenuOmit
+  userMenuRight?: Prisma.UserMenuRightOmit
   client?: Prisma.ClientOmit
   plan?: Prisma.PlanOmit
   subscription?: Prisma.SubscriptionOmit

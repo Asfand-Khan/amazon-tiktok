@@ -6,7 +6,7 @@ export class ClientRepository {
     return prisma.client.create({ data });
   }
 
-  async findByUserId(userId: string): Promise<Client | null> {
+  async findByUserId(userId: number): Promise<Client | null> {
     return prisma.client.findUnique({ where: { userId } });
   }
 
@@ -14,7 +14,7 @@ export class ClientRepository {
     return prisma.client.findUnique({ where: { apiKey } });
   }
 
-  async update(id: string, data: Prisma.ClientUpdateInput): Promise<Client> {
+  async update(id: number, data: Prisma.ClientUpdateInput): Promise<Client> {
     return prisma.client.update({ where: { id }, data });
   }
 }

@@ -28,26 +28,27 @@ enum UserStatus {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  email         String       @unique
-  password      String       // Hashed password
+  id            Int        @id @default(autoincrement())
+  email         String     @unique
+  password      String // Hashed password
   firstName     String?
   lastName      String?
-  role          UserRole     @default(CLIENT)
-  status        UserStatus   @default(PENDING)
-  emailVerified Boolean      @default(false)
-  
+  role          UserRole   @default(CLIENT)
+  status        UserStatus @default(PENDING)
+  emailVerified Boolean    @default(false)
+
   // Timestamps
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  lastLoginAt   DateTime?
-  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastLoginAt DateTime?
+
   // Relations
-  client        Client?      // One-to-one: if role is CLIENT
-  sessions      Session[]
-  notifications Notification[]
-  activityLogs  ActivityLog[]
-  
+  client         Client? // One-to-one: if role is CLIENT
+  sessions       Session[]
+  notifications  Notification[]
+  activityLogs   ActivityLog[]
+  userMenuRights UserMenuRight[]
+
   @@index([email])
   @@index([role, status])
   @@map("users")
@@ -55,19 +56,61 @@ model User {
 
 // Purpose: Manage user sessions for authentication
 model Session {
-  id           String   @id @default(cuid())
-  userId       String
-  token        String   @unique
-  expiresAt    DateTime
-  ipAddress    String?
-  userAgent    String?
-  createdAt    DateTime @default(now())
-  
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([userId])
   @@index([token])
   @@map("sessions")
+}
+
+model Menu {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String? @db.VarChar(100)
+  parentId    Int?
+  url         String? @db.VarChar(255)
+  icon        String? @db.VarChar(100)
+  sorting     Int     @default(0)
+  createdBy   Int
+  deletedBy   Int?
+  isActive    Boolean @default(true)
+  isDeleted   Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  deletedAt DateTime?
+
+  parent           Menu?           @relation("menu_children", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  children         Menu[]          @relation("menu_children")
+  user_menu_rights UserMenuRight[]
+
+  @@map("menus")
+}
+
+model UserMenuRight {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  menuId    Int
+  canView   Boolean  @default(true)
+  canCreate Boolean  @default(false)
+  canEdit   Boolean  @default(false)
+  canDelete Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  menu Menu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, menuId])
+  @@map("user_menu_rights")
 }
 
 // ============================================
@@ -76,32 +119,32 @@ model Session {
 
 // Purpose: Store client-specific data and link to their user account
 model Client {
-  id              String          @id @default(cuid())
-  userId          String          @unique
-  companyName     String?
-  phoneNumber     String?
-  
+  id          Int     @id @default(autoincrement())
+  userId      Int     @unique
+  companyName String?
+  phoneNumber String?
+
   // API Key Management
-  apiKey          String          @unique @default(cuid())
-  apiKeyIssuedAt  DateTime        @default(now())
+  apiKey          String       @unique @default(cuid())
+  apiKeyIssuedAt  DateTime     @default(now())
   apiKeyExpiresAt DateTime?
-  apiKeyStatus    ApiKeyStatus    @default(ACTIVE)
-  
+  apiKeyStatus    ApiKeyStatus @default(ACTIVE)
+
   // Usage Tracking
-  usageCount      Int             @default(0)
-  usageLimit      Int             @default(0) // Based on subscription plan
-  lastUsedAt      DateTime?
-  
+  usageCount Int       @default(0)
+  usageLimit Int       @default(0) // Based on subscription plan
+  lastUsedAt DateTime?
+
   // Timestamps
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relations
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  subscriptions   Subscription[]
-  copiedData      CopiedData[]
-  payments        Payment[]
-  
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+  copiedData    CopiedData[]
+  payments      Payment[]
+
   @@index([apiKey])
   @@index([userId])
   @@index([apiKeyStatus])
@@ -136,29 +179,29 @@ enum PlanInterval {
 }
 
 model Plan {
-  id            String         @id @default(cuid())
-  name          String
-  displayName   String
-  description   String?
-  type          PlanType
-  interval      PlanInterval
-  price         Decimal        @db.Decimal(10, 2)
-  currency      String         @default("USD")
-  
+  id          Int          @id @default(autoincrement())
+  name        String
+  displayName String
+  description String?
+  type        PlanType
+  interval    PlanInterval
+  price       Decimal      @db.Decimal(10, 2)
+  currency    String       @default("USD")
+
   // Features and Limits
-  usageLimit    Int            // Number of copies/hits allowed
-  features      Json           // Array of feature strings
-  isActive      Boolean        @default(true)
-  isPopular     Boolean        @default(false)
-  sortOrder     Int            @default(0)
-  
+  usageLimit Int // Number of copies/hits allowed
+  features   Json // Array of feature strings
+  isActive   Boolean @default(true)
+  isPopular  Boolean @default(false)
+  sortOrder  Int     @default(0)
+
   // Timestamps
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relations
   subscriptions Subscription[]
-  
+
   @@index([isActive, sortOrder])
   @@map("plans")
 }
@@ -173,31 +216,31 @@ enum SubscriptionStatus {
 }
 
 model Subscription {
-  id                String             @id @default(cuid())
-  clientId          String
-  planId            String
-  
-  status            SubscriptionStatus @default(PENDING_PAYMENT)
-  startDate         DateTime?
-  endDate           DateTime?
-  autoRenew         Boolean            @default(true)
-  
+  id       Int @id @default(autoincrement())
+  clientId Int
+  planId   Int
+
+  status    SubscriptionStatus @default(PENDING_PAYMENT)
+  startDate DateTime?
+  endDate   DateTime?
+  autoRenew Boolean            @default(true)
+
   // Custom limits (admin can override plan limits)
-  customUsageLimit  Int?
-  
+  customUsageLimit Int?
+
   // Stripe Integration
-  stripeSubscriptionId String?         @unique
+  stripeSubscriptionId String? @unique
   stripePriceId        String?
-  
+
   // Timestamps
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  cancelledAt       DateTime?
-  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  cancelledAt DateTime?
+
   // Relations
-  client            Client             @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  plan              Plan               @relation(fields: [planId], references: [id])
-  
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  plan   Plan   @relation(fields: [planId], references: [id])
+
   @@index([clientId, status])
   @@index([stripeSubscriptionId])
   @@map("subscriptions")
@@ -218,33 +261,33 @@ enum PaymentStatus {
 }
 
 model Payment {
-  id                  String        @id @default(cuid())
-  clientId            String
-  
+  id       Int @id @default(autoincrement())
+  clientId Int
+
   // Payment Details
-  amount              Decimal       @db.Decimal(10, 2)
-  currency            String        @default("USD")
-  status              PaymentStatus @default(PENDING)
-  
+  amount   Decimal       @db.Decimal(10, 2)
+  currency String        @default("USD")
+  status   PaymentStatus @default(PENDING)
+
   // Stripe Integration
-  stripePaymentIntentId String?     @unique
+  stripePaymentIntentId String? @unique
   stripeChargeId        String?
   stripeInvoiceId       String?
   stripeCustomerId      String?
-  
+
   // Metadata
-  description         String?
-  metadata            Json?
-  failureReason       String?
-  
+  description   String?
+  metadata      Json?
+  failureReason String?
+
   // Timestamps
-  createdAt           DateTime      @default(now())
-  updatedAt           DateTime      @updatedAt
-  paidAt              DateTime?
-  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  paidAt    DateTime?
+
   // Relations
-  client              Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
   @@index([clientId, status])
   @@index([stripePaymentIntentId])
   @@index([createdAt])
@@ -258,33 +301,33 @@ model Payment {
 // Purpose: Store data copied from Amazon via Chrome Extension
 // This data is synced and displayed on client dashboard
 model CopiedData {
-  id              String   @id @default(cuid())
-  clientId        String
-  
+  id       Int @id @default(autoincrement())
+  clientId Int
+
   // Amazon Product Data
-  productTitle    String
-  productAsin     String?
-  productPrice    Decimal? @db.Decimal(10, 2)
-  productImage    String?
-  productUrl      String?
-  productData     Json     // Complete product data in JSON format
-  
+  productTitle String
+  productAsin  String?
+  productPrice Decimal? @db.Decimal(10, 2)
+  productImage String?
+  productUrl   String?
+  productData  Json // Complete product data in JSON format
+
   // TikTok Shop Data (if pasted)
-  tiktokShopUrl   String?
-  tiktokStatus    String?
-  pastedAt        DateTime?
-  
+  tiktokShopUrl String?
+  tiktokStatus  String?
+  pastedAt      DateTime?
+
   // Metadata
-  copiedFrom      String?  // Browser info
-  userAgent       String?
-  
+  copiedFrom String? // Browser info
+  userAgent  String?
+
   // Timestamps
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // Relations
-  client          Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
   @@index([clientId, createdAt])
   @@index([productAsin])
   @@map("copied_data")
@@ -304,49 +347,49 @@ enum ContentType {
 }
 
 model Content {
-  id          String      @id @default(cuid())
-  type        ContentType
-  title       String
-  content     Json        // Flexible JSON structure for different content types
-  isActive    Boolean     @default(true)
-  sortOrder   Int         @default(0)
-  
+  id        Int         @id @default(autoincrement())
+  type      ContentType
+  title     String
+  content   Json // Flexible JSON structure for different content types
+  isActive  Boolean     @default(true)
+  sortOrder Int         @default(0)
+
   // Timestamps
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   publishedAt DateTime?
-  
+
   @@index([type, isActive, sortOrder])
   @@map("contents")
 }
 
 // Purpose: Store website branding settings
 model BrandingSettings {
-  id              String   @id @default(cuid())
-  logoUrl         String?
-  faviconUrl      String?
-  primaryColor    String?
-  secondaryColor  String?
-  fontFamily      String?
-  companyName     String?
-  tagline         String?
-  
+  id             Int     @id @default(autoincrement())
+  logoUrl        String?
+  faviconUrl     String?
+  primaryColor   String?
+  secondaryColor String?
+  fontFamily     String?
+  companyName    String?
+  tagline        String?
+
   // Contact Info
-  email           String?
-  phone           String?
-  address         String?
-  
+  email   String?
+  phone   String?
+  address String?
+
   // Social Links
-  socialLinks     Json?    // {facebook, twitter, linkedin, etc.}
-  
+  socialLinks Json? // {facebook, twitter, linkedin, etc.}
+
   // SEO
   metaTitle       String?
   metaDescription String?
   metaKeywords    String?
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("branding_settings")
 }
 
@@ -366,19 +409,19 @@ enum NotificationType {
 }
 
 model Notification {
-  id          String           @id @default(cuid())
-  userId      String           // Admin user who receives this
-  type        NotificationType
-  title       String
-  message     String
-  metadata    Json?
-  isRead      Boolean          @default(false)
-  readAt      DateTime?
-  
-  createdAt   DateTime         @default(now())
-  
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id       Int              @id @default(autoincrement())
+  userId   Int // Admin user who receives this
+  type     NotificationType
+  title    String
+  message  String
+  metadata Json?
+  isRead   Boolean          @default(false)
+  readAt   DateTime?
+
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([userId, isRead, createdAt])
   @@map("notifications")
 }
@@ -404,19 +447,19 @@ enum ActivityType {
 }
 
 model ActivityLog {
-  id          String       @id @default(cuid())
-  userId      String?
-  actorEmail  String?      // Email of person who performed action
+  id          Int          @id @default(autoincrement())
+  userId      Int?
+  actorEmail  String? // Email of person who performed action
   type        ActivityType
   description String
   metadata    Json?
   ipAddress   String?
   userAgent   String?
-  
-  createdAt   DateTime     @default(now())
-  
-  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
+
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
   @@index([userId, createdAt])
   @@index([type, createdAt])
   @@map("activity_logs")
@@ -428,15 +471,15 @@ model ActivityLog {
 
 // Purpose: Store system-wide configuration settings
 model SystemConfig {
-  id                      String   @id @default(cuid())
-  key                     String   @unique
-  value                   String
-  description             String?
-  isEditable              Boolean  @default(true)
-  
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
-  
+  id          Int     @id @default(autoincrement())
+  key         String  @unique
+  value       String
+  description String?
+  isEditable  Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("system_config")
 }
 
@@ -457,15 +500,15 @@ enum EmailTemplateType {
 }
 
 model EmailTemplate {
-  id          String            @id @default(cuid())
-  type        EmailTemplateType @unique
-  subject     String
-  body        String            @db.Text // HTML email body with variables
-  variables   Json?             // Available variables for this template
-  isActive    Boolean           @default(true)
-  
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  
+  id        Int               @id @default(autoincrement())
+  type      EmailTemplateType @unique
+  subject   String
+  body      String            @db.Text // HTML email body with variables
+  variables Json? // Available variables for this template
+  isActive  Boolean           @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("email_templates")
 }

@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 const clientRepository = new ClientRepository();
 
 export class ClientService {
-  async getDashboardData(userId: string) {
+  async getDashboardData(userId: number) {
     const client = await clientRepository.findByUserId(userId);
     if (!client) {
       throw new AppError('Client profile not found', 404);
@@ -21,7 +21,7 @@ export class ClientService {
     };
   }
 
-  async regenerateApiKey(userId: string) {
+  async regenerateApiKey(userId: number) {
     const client = await clientRepository.findByUserId(userId);
     if (!client) {
       throw new AppError('Client profile not found', 404);

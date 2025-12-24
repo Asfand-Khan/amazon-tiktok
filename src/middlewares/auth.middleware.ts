@@ -3,13 +3,15 @@ import jwt from 'jsonwebtoken';
 import { AppError } from '../utils/AppError.js';
 import { catchAsync } from '../utils/catchAsync.js';
 import { UserRepository } from '../repositories/user.repository.js';
+import { SessionRepository } from '../repositories/session.repository.js';
 // import { UserRole } from '@prisma/client'; // Enum might not be exported directly in some setups
 type UserRole = 'SUPER_ADMIN' | 'ADMIN' | 'STAFF' | 'CLIENT';
 
 const userRepository = new UserRepository();
+const sessionRepository = new SessionRepository();
 
 interface JwtPayload {
-  id: string;
+  id: number;
   iat: number;
   exp: number;
 }
@@ -45,7 +47,20 @@ export const protect = catchAsync(
       process.env.JWT_SECRET || 'secret'
     ) as JwtPayload;
 
-    // 3) Check if user still exists
+    // 3) Check session in database
+    const session = await sessionRepository.findByToken(token);
+    if (!session) {
+      return next(new AppError('Session has expired or is invalid.', 401));
+    }
+
+    if (session.expiresAt < new Date()) {
+      await sessionRepository.deleteByToken(token);
+      return next(
+        new AppError('Session has expired. Please log in again.', 401)
+      );
+    }
+
+    // 4) Check if user still exists
     const currentUser = await userRepository.findById(decoded.id);
     if (!currentUser) {
       return next(
@@ -55,8 +70,6 @@ export const protect = catchAsync(
         )
       );
     }
-
-    // 4) Check if user changed password after the token was issued (Optional implementation)
 
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = currentUser;

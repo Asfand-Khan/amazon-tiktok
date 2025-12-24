@@ -27,19 +27,21 @@ export type AggregatePlan = {
 }
 
 export type PlanAvgAggregateOutputType = {
+  id: number | null
   price: runtime.Decimal | null
   usageLimit: number | null
   sortOrder: number | null
 }
 
 export type PlanSumAggregateOutputType = {
+  id: number | null
   price: runtime.Decimal | null
   usageLimit: number | null
   sortOrder: number | null
 }
 
 export type PlanMinAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   displayName: string | null
   description: string | null
@@ -56,7 +58,7 @@ export type PlanMinAggregateOutputType = {
 }
 
 export type PlanMaxAggregateOutputType = {
-  id: string | null
+  id: number | null
   name: string | null
   displayName: string | null
   description: string | null
@@ -93,12 +95,14 @@ export type PlanCountAggregateOutputType = {
 
 
 export type PlanAvgAggregateInputType = {
+  id?: true
   price?: true
   usageLimit?: true
   sortOrder?: true
 }
 
 export type PlanSumAggregateInputType = {
+  id?: true
   price?: true
   usageLimit?: true
   sortOrder?: true
@@ -244,7 +248,7 @@ export type PlanGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 }
 
 export type PlanGroupByOutputType = {
-  id: string
+  id: number
   name: string
   displayName: string
   description: string | null
@@ -285,7 +289,7 @@ export type PlanWhereInput = {
   AND?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   OR?: Prisma.PlanWhereInput[]
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
-  id?: Prisma.StringFilter<"Plan"> | string
+  id?: Prisma.IntFilter<"Plan"> | number
   name?: Prisma.StringFilter<"Plan"> | string
   displayName?: Prisma.StringFilter<"Plan"> | string
   description?: Prisma.StringNullableFilter<"Plan"> | string | null
@@ -324,7 +328,7 @@ export type PlanOrderByWithRelationInput = {
 }
 
 export type PlanWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
+  id?: number
   AND?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
   OR?: Prisma.PlanWhereInput[]
   NOT?: Prisma.PlanWhereInput | Prisma.PlanWhereInput[]
@@ -372,7 +376,7 @@ export type PlanScalarWhereWithAggregatesInput = {
   AND?: Prisma.PlanScalarWhereWithAggregatesInput | Prisma.PlanScalarWhereWithAggregatesInput[]
   OR?: Prisma.PlanScalarWhereWithAggregatesInput[]
   NOT?: Prisma.PlanScalarWhereWithAggregatesInput | Prisma.PlanScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Plan"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Plan"> | number
   name?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   displayName?: Prisma.StringWithAggregatesFilter<"Plan"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Plan"> | string | null
@@ -390,7 +394,6 @@ export type PlanScalarWhereWithAggregatesInput = {
 }
 
 export type PlanCreateInput = {
-  id?: string
   name: string
   displayName: string
   description?: string | null
@@ -409,7 +412,7 @@ export type PlanCreateInput = {
 }
 
 export type PlanUncheckedCreateInput = {
-  id?: string
+  id?: number
   name: string
   displayName: string
   description?: string | null
@@ -428,7 +431,6 @@ export type PlanUncheckedCreateInput = {
 }
 
 export type PlanUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -447,7 +449,7 @@ export type PlanUpdateInput = {
 }
 
 export type PlanUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -466,7 +468,7 @@ export type PlanUncheckedUpdateInput = {
 }
 
 export type PlanCreateManyInput = {
-  id?: string
+  id?: number
   name: string
   displayName: string
   description?: string | null
@@ -484,7 +486,6 @@ export type PlanCreateManyInput = {
 }
 
 export type PlanUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -502,7 +503,7 @@ export type PlanUpdateManyMutationInput = {
 }
 
 export type PlanUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -544,6 +545,7 @@ export type PlanCountOrderByAggregateInput = {
 }
 
 export type PlanAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   price?: Prisma.SortOrder
   usageLimit?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -584,6 +586,7 @@ export type PlanMinOrderByAggregateInput = {
 }
 
 export type PlanSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
   price?: Prisma.SortOrder
   usageLimit?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
@@ -625,7 +628,6 @@ export type PlanUpdateOneRequiredWithoutSubscriptionsNestedInput = {
 }
 
 export type PlanCreateWithoutSubscriptionsInput = {
-  id?: string
   name: string
   displayName: string
   description?: string | null
@@ -643,7 +645,7 @@ export type PlanCreateWithoutSubscriptionsInput = {
 }
 
 export type PlanUncheckedCreateWithoutSubscriptionsInput = {
-  id?: string
+  id?: number
   name: string
   displayName: string
   description?: string | null
@@ -677,7 +679,6 @@ export type PlanUpdateToOneWithWhereWithoutSubscriptionsInput = {
 }
 
 export type PlanUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -695,7 +696,7 @@ export type PlanUpdateWithoutSubscriptionsInput = {
 }
 
 export type PlanUncheckedUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -795,7 +796,7 @@ export type $PlanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
+    id: number
     name: string
     displayName: string
     description: string | null
@@ -1180,7 +1181,7 @@ export interface Prisma__PlanClient<T, Null = never, ExtArgs extends runtime.Typ
  * Fields of the Plan model
  */
 export interface PlanFieldRefs {
-  readonly id: Prisma.FieldRef<"Plan", 'String'>
+  readonly id: Prisma.FieldRef<"Plan", 'Int'>
   readonly name: Prisma.FieldRef<"Plan", 'String'>
   readonly displayName: Prisma.FieldRef<"Plan", 'String'>
   readonly description: Prisma.FieldRef<"Plan", 'String'>

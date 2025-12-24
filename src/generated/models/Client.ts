@@ -27,18 +27,22 @@ export type AggregateClient = {
 }
 
 export type ClientAvgAggregateOutputType = {
+  id: number | null
+  userId: number | null
   usageCount: number | null
   usageLimit: number | null
 }
 
 export type ClientSumAggregateOutputType = {
+  id: number | null
+  userId: number | null
   usageCount: number | null
   usageLimit: number | null
 }
 
 export type ClientMinAggregateOutputType = {
-  id: string | null
-  userId: string | null
+  id: number | null
+  userId: number | null
   companyName: string | null
   phoneNumber: string | null
   apiKey: string | null
@@ -53,8 +57,8 @@ export type ClientMinAggregateOutputType = {
 }
 
 export type ClientMaxAggregateOutputType = {
-  id: string | null
-  userId: string | null
+  id: number | null
+  userId: number | null
   companyName: string | null
   phoneNumber: string | null
   apiKey: string | null
@@ -87,11 +91,15 @@ export type ClientCountAggregateOutputType = {
 
 
 export type ClientAvgAggregateInputType = {
+  id?: true
+  userId?: true
   usageCount?: true
   usageLimit?: true
 }
 
 export type ClientSumAggregateInputType = {
+  id?: true
+  userId?: true
   usageCount?: true
   usageLimit?: true
 }
@@ -232,8 +240,8 @@ export type ClientGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 }
 
 export type ClientGroupByOutputType = {
-  id: string
-  userId: string
+  id: number
+  userId: number
   companyName: string | null
   phoneNumber: string | null
   apiKey: string
@@ -271,8 +279,8 @@ export type ClientWhereInput = {
   AND?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   OR?: Prisma.ClientWhereInput[]
   NOT?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
-  id?: Prisma.StringFilter<"Client"> | string
-  userId?: Prisma.StringFilter<"Client"> | string
+  id?: Prisma.IntFilter<"Client"> | number
+  userId?: Prisma.IntFilter<"Client"> | number
   companyName?: Prisma.StringNullableFilter<"Client"> | string | null
   phoneNumber?: Prisma.StringNullableFilter<"Client"> | string | null
   apiKey?: Prisma.StringFilter<"Client"> | string
@@ -312,8 +320,8 @@ export type ClientOrderByWithRelationInput = {
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
-  id?: string
-  userId?: string
+  id?: number
+  userId?: number
   apiKey?: string
   AND?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   OR?: Prisma.ClientWhereInput[]
@@ -359,8 +367,8 @@ export type ClientScalarWhereWithAggregatesInput = {
   AND?: Prisma.ClientScalarWhereWithAggregatesInput | Prisma.ClientScalarWhereWithAggregatesInput[]
   OR?: Prisma.ClientScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ClientScalarWhereWithAggregatesInput | Prisma.ClientScalarWhereWithAggregatesInput[]
-  id?: Prisma.StringWithAggregatesFilter<"Client"> | string
-  userId?: Prisma.StringWithAggregatesFilter<"Client"> | string
+  id?: Prisma.IntWithAggregatesFilter<"Client"> | number
+  userId?: Prisma.IntWithAggregatesFilter<"Client"> | number
   companyName?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   phoneNumber?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   apiKey?: Prisma.StringWithAggregatesFilter<"Client"> | string
@@ -375,7 +383,6 @@ export type ClientScalarWhereWithAggregatesInput = {
 }
 
 export type ClientCreateInput = {
-  id?: string
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -394,8 +401,8 @@ export type ClientCreateInput = {
 }
 
 export type ClientUncheckedCreateInput = {
-  id?: string
-  userId: string
+  id?: number
+  userId: number
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -413,7 +420,6 @@ export type ClientUncheckedCreateInput = {
 }
 
 export type ClientUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -432,8 +438,8 @@ export type ClientUpdateInput = {
 }
 
 export type ClientUncheckedUpdateInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -451,8 +457,8 @@ export type ClientUncheckedUpdateInput = {
 }
 
 export type ClientCreateManyInput = {
-  id?: string
-  userId: string
+  id?: number
+  userId: number
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -467,7 +473,6 @@ export type ClientCreateManyInput = {
 }
 
 export type ClientUpdateManyMutationInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -482,8 +487,8 @@ export type ClientUpdateManyMutationInput = {
 }
 
 export type ClientUncheckedUpdateManyInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -525,6 +530,8 @@ export type ClientCountOrderByAggregateInput = {
 }
 
 export type ClientAvgOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   usageCount?: Prisma.SortOrder
   usageLimit?: Prisma.SortOrder
 }
@@ -562,6 +569,8 @@ export type ClientMinOrderByAggregateInput = {
 }
 
 export type ClientSumOrderByAggregateInput = {
+  id?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   usageCount?: Prisma.SortOrder
   usageLimit?: Prisma.SortOrder
 }
@@ -607,14 +616,6 @@ export type EnumApiKeyStatusFieldUpdateOperationsInput = {
   set?: $Enums.ApiKeyStatus
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ClientCreateNestedOneWithoutSubscriptionsInput = {
   create?: Prisma.XOR<Prisma.ClientCreateWithoutSubscriptionsInput, Prisma.ClientUncheckedCreateWithoutSubscriptionsInput>
   connectOrCreate?: Prisma.ClientCreateOrConnectWithoutSubscriptionsInput
@@ -658,7 +659,6 @@ export type ClientUpdateOneRequiredWithoutCopiedDataNestedInput = {
 }
 
 export type ClientCreateWithoutUserInput = {
-  id?: string
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -676,7 +676,7 @@ export type ClientCreateWithoutUserInput = {
 }
 
 export type ClientUncheckedCreateWithoutUserInput = {
-  id?: string
+  id?: number
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -710,7 +710,6 @@ export type ClientUpdateToOneWithWhereWithoutUserInput = {
 }
 
 export type ClientUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -728,7 +727,7 @@ export type ClientUpdateWithoutUserInput = {
 }
 
 export type ClientUncheckedUpdateWithoutUserInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -746,7 +745,6 @@ export type ClientUncheckedUpdateWithoutUserInput = {
 }
 
 export type ClientCreateWithoutSubscriptionsInput = {
-  id?: string
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -764,8 +762,8 @@ export type ClientCreateWithoutSubscriptionsInput = {
 }
 
 export type ClientUncheckedCreateWithoutSubscriptionsInput = {
-  id?: string
-  userId: string
+  id?: number
+  userId: number
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -798,7 +796,6 @@ export type ClientUpdateToOneWithWhereWithoutSubscriptionsInput = {
 }
 
 export type ClientUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -816,8 +813,8 @@ export type ClientUpdateWithoutSubscriptionsInput = {
 }
 
 export type ClientUncheckedUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -834,7 +831,6 @@ export type ClientUncheckedUpdateWithoutSubscriptionsInput = {
 }
 
 export type ClientCreateWithoutPaymentsInput = {
-  id?: string
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -852,8 +848,8 @@ export type ClientCreateWithoutPaymentsInput = {
 }
 
 export type ClientUncheckedCreateWithoutPaymentsInput = {
-  id?: string
-  userId: string
+  id?: number
+  userId: number
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -886,7 +882,6 @@ export type ClientUpdateToOneWithWhereWithoutPaymentsInput = {
 }
 
 export type ClientUpdateWithoutPaymentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -904,8 +899,8 @@ export type ClientUpdateWithoutPaymentsInput = {
 }
 
 export type ClientUncheckedUpdateWithoutPaymentsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -922,7 +917,6 @@ export type ClientUncheckedUpdateWithoutPaymentsInput = {
 }
 
 export type ClientCreateWithoutCopiedDataInput = {
-  id?: string
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -940,8 +934,8 @@ export type ClientCreateWithoutCopiedDataInput = {
 }
 
 export type ClientUncheckedCreateWithoutCopiedDataInput = {
-  id?: string
-  userId: string
+  id?: number
+  userId: number
   companyName?: string | null
   phoneNumber?: string | null
   apiKey?: string
@@ -974,7 +968,6 @@ export type ClientUpdateToOneWithWhereWithoutCopiedDataInput = {
 }
 
 export type ClientUpdateWithoutCopiedDataInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -992,8 +985,8 @@ export type ClientUpdateWithoutCopiedDataInput = {
 }
 
 export type ClientUncheckedUpdateWithoutCopiedDataInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phoneNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   apiKey?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1115,8 +1108,8 @@ export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     payments: Prisma.$PaymentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
-    id: string
-    userId: string
+    id: number
+    userId: number
     companyName: string | null
     phoneNumber: string | null
     apiKey: string
@@ -1501,8 +1494,8 @@ export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.T
  * Fields of the Client model
  */
 export interface ClientFieldRefs {
-  readonly id: Prisma.FieldRef<"Client", 'String'>
-  readonly userId: Prisma.FieldRef<"Client", 'String'>
+  readonly id: Prisma.FieldRef<"Client", 'Int'>
+  readonly userId: Prisma.FieldRef<"Client", 'Int'>
   readonly companyName: Prisma.FieldRef<"Client", 'String'>
   readonly phoneNumber: Prisma.FieldRef<"Client", 'String'>
   readonly apiKey: Prisma.FieldRef<"Client", 'String'>

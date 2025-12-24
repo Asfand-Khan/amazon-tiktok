@@ -26,6 +26,8 @@ export const AnyNull = runtime.AnyNull;
 export const ModelName = {
     User: 'User',
     Session: 'Session',
+    Menu: 'Menu',
+    UserMenuRight: 'UserMenuRight',
     Client: 'Client',
     Plan: 'Plan',
     Subscription: 'Subscription',
@@ -65,6 +67,33 @@ export const SessionScalarFieldEnum = {
     ipAddress: 'ipAddress',
     userAgent: 'userAgent',
     createdAt: 'createdAt'
+};
+export const MenuScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    parentId: 'parentId',
+    url: 'url',
+    icon: 'icon',
+    sorting: 'sorting',
+    createdBy: 'createdBy',
+    deletedBy: 'deletedBy',
+    isActive: 'isActive',
+    isDeleted: 'isDeleted',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+};
+export const UserMenuRightScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    menuId: 'menuId',
+    canView: 'canView',
+    canCreate: 'canCreate',
+    canEdit: 'canEdit',
+    canDelete: 'canDelete',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const ClientScalarFieldEnum = {
     id: 'id',
@@ -234,22 +263,23 @@ export const NullsOrder = {
     last: 'last'
 };
 export const UserOrderByRelevanceFieldEnum = {
-    id: 'id',
     email: 'email',
     password: 'password',
     firstName: 'firstName',
     lastName: 'lastName'
 };
 export const SessionOrderByRelevanceFieldEnum = {
-    id: 'id',
-    userId: 'userId',
     token: 'token',
     ipAddress: 'ipAddress',
     userAgent: 'userAgent'
 };
+export const MenuOrderByRelevanceFieldEnum = {
+    name: 'name',
+    description: 'description',
+    url: 'url',
+    icon: 'icon'
+};
 export const ClientOrderByRelevanceFieldEnum = {
-    id: 'id',
-    userId: 'userId',
     companyName: 'companyName',
     phoneNumber: 'phoneNumber',
     apiKey: 'apiKey'
@@ -264,22 +294,16 @@ export const QueryMode = {
     insensitive: 'insensitive'
 };
 export const PlanOrderByRelevanceFieldEnum = {
-    id: 'id',
     name: 'name',
     displayName: 'displayName',
     description: 'description',
     currency: 'currency'
 };
 export const SubscriptionOrderByRelevanceFieldEnum = {
-    id: 'id',
-    clientId: 'clientId',
-    planId: 'planId',
     stripeSubscriptionId: 'stripeSubscriptionId',
     stripePriceId: 'stripePriceId'
 };
 export const PaymentOrderByRelevanceFieldEnum = {
-    id: 'id',
-    clientId: 'clientId',
     currency: 'currency',
     stripePaymentIntentId: 'stripePaymentIntentId',
     stripeChargeId: 'stripeChargeId',
@@ -289,8 +313,6 @@ export const PaymentOrderByRelevanceFieldEnum = {
     failureReason: 'failureReason'
 };
 export const CopiedDataOrderByRelevanceFieldEnum = {
-    id: 'id',
-    clientId: 'clientId',
     productTitle: 'productTitle',
     productAsin: 'productAsin',
     productImage: 'productImage',
@@ -301,11 +323,9 @@ export const CopiedDataOrderByRelevanceFieldEnum = {
     userAgent: 'userAgent'
 };
 export const ContentOrderByRelevanceFieldEnum = {
-    id: 'id',
     title: 'title'
 };
 export const BrandingSettingsOrderByRelevanceFieldEnum = {
-    id: 'id',
     logoUrl: 'logoUrl',
     faviconUrl: 'faviconUrl',
     primaryColor: 'primaryColor',
@@ -321,27 +341,21 @@ export const BrandingSettingsOrderByRelevanceFieldEnum = {
     metaKeywords: 'metaKeywords'
 };
 export const NotificationOrderByRelevanceFieldEnum = {
-    id: 'id',
-    userId: 'userId',
     title: 'title',
     message: 'message'
 };
 export const ActivityLogOrderByRelevanceFieldEnum = {
-    id: 'id',
-    userId: 'userId',
     actorEmail: 'actorEmail',
     description: 'description',
     ipAddress: 'ipAddress',
     userAgent: 'userAgent'
 };
 export const SystemConfigOrderByRelevanceFieldEnum = {
-    id: 'id',
     key: 'key',
     value: 'value',
     description: 'description'
 };
 export const EmailTemplateOrderByRelevanceFieldEnum = {
-    id: 'id',
     subject: 'subject',
     body: 'body'
 };

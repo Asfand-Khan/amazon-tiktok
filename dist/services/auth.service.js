@@ -14,10 +14,22 @@ export class AuthService {
         if (existingUser) {
             throw new AppError('Email already in use', 400);
         }
-        const hashedPassword = await bcrypt.hash(data.password, 12);
+        const { rights, ...userData } = data;
+        const hashedPassword = await bcrypt.hash(userData.password, 12);
         const newUser = await userRepository.create({
-            ...data,
+            ...userData,
             password: hashedPassword,
+            userMenuRights: rights
+                ? {
+                    create: rights.map((right) => ({
+                        menu: { connect: { id: right.menuId } },
+                        canView: right.canView,
+                        canCreate: right.canCreate,
+                        canEdit: right.canEdit,
+                        canDelete: right.canDelete,
+                    })),
+                }
+                : undefined,
         });
         const token = signToken(newUser.id);
         const { password, ...userWithoutPassword } = newUser;

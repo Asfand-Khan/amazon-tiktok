@@ -50,6 +50,16 @@ export type User = Prisma.UserModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model Menu
+ * 
+ */
+export type Menu = Prisma.MenuModel
+/**
+ * Model UserMenuRight
+ * 
+ */
+export type UserMenuRight = Prisma.UserMenuRightModel
+/**
  * Model Client
  * 
  */
