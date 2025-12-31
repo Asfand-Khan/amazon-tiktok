@@ -35,4 +35,32 @@ export class ClientService {
 
     return { apiKey: updatedClient.apiKey };
   }
+
+  async getAllClients() {
+    return clientRepository.findAll();
+  }
+
+  async getClientById(id: number) {
+    const client = await clientRepository.findById(id);
+    if (!client) {
+      throw new AppError('Client not found', 404);
+    }
+    return client;
+  }
+
+  async updateClient(id: number, data: any) {
+    const client = await clientRepository.findById(id);
+    if (!client) {
+      throw new AppError('Client not found', 404);
+    }
+    return clientRepository.update(id, data);
+  }
+
+  async deleteClient(id: number) {
+    const client = await clientRepository.findById(id);
+    if (!client) {
+      throw new AppError('Client not found', 404);
+    }
+    return clientRepository.delete(id);
+  }
 }

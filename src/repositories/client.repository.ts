@@ -6,6 +6,12 @@ export class ClientRepository {
     return prisma.client.create({ data });
   }
 
+  async findAll(): Promise<Client[]> {
+    return prisma.client.findMany({
+      include: { user: true },
+    });
+  }
+
   async findByUserId(userId: number): Promise<Client | null> {
     return prisma.client.findUnique({ where: { userId } });
   }
@@ -14,7 +20,15 @@ export class ClientRepository {
     return prisma.client.findUnique({ where: { apiKey } });
   }
 
+  async findById(id: number): Promise<Client | null> {
+    return prisma.client.findUnique({ where: { id } });
+  }
+
   async update(id: number, data: Prisma.ClientUpdateInput): Promise<Client> {
     return prisma.client.update({ where: { id }, data });
+  }
+
+  async delete(id: number): Promise<Client> {
+    return prisma.client.delete({ where: { id } });
   }
 }

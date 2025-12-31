@@ -10,6 +10,16 @@ import authRoutes from './routes/auth.routes.js';
 import clientRoutes from './routes/client.routes.js';
 import menuRoutes from './routes/menu.routes.js';
 import userRoutes from './routes/user.routes.js';
+import planRoutes from './routes/plan.routes.js';
+import subscriptionRoutes from './routes/subscription.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
+import copiedDataRoutes from './routes/copiedData.routes.js';
+import contentRoutes from './routes/content.routes.js';
+import brandingRoutes from './routes/branding.routes.js';
+import systemConfigRoutes from './routes/systemConfig.routes.js';
+import emailTemplateRoutes from './routes/emailTemplate.routes.js';
+import notificationRoutes from './routes/notification.routes.js';
+import activityLogRoutes from './routes/activityLog.routes.js';
 import swaggerUi from 'swagger-ui-express';
 import { specs } from './config/swagger.js';
 
@@ -39,6 +49,16 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/menus', menuRoutes);
 app.use('/api/v1/clients', clientRoutes);
+app.use('/api/v1/plans', planRoutes);
+app.use('/api/v1/subscriptions', subscriptionRoutes);
+app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1/copied-data', copiedDataRoutes);
+app.use('/api/v1/contents', contentRoutes);
+app.use('/api/v1/branding', brandingRoutes);
+app.use('/api/v1/system-config', systemConfigRoutes);
+app.use('/api/v1/email-templates', emailTemplateRoutes);
+app.use('/api/v1/notifications', notificationRoutes);
+app.use('/api/v1/activity-logs', activityLogRoutes);
 
 // 3) DOCS
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
