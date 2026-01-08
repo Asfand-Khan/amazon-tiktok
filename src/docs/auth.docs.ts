@@ -9,9 +9,10 @@
  * @swagger
  * /auth/register:
  *   post:
- *     summary: Register a new user
+ *     summary: Register a new user (Protected)
  *     tags: [Auth]
- *     security: []
+ *     security:
+ *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -71,6 +72,8 @@
  *                       $ref: '#/components/schemas/User'
  *       400:
  *         description: Validation error or Email already in use
+ *       401:
+ *         description: Unauthorized
  */
 
 /**
@@ -115,4 +118,19 @@
  *                       $ref: '#/components/schemas/User'
  *       401:
  *         description: Incorrect email or password
+ */
+
+/**
+ * @swagger
+ * /auth/logout:
+ *   get:
+ *     summary: Logout user
+ *     tags: [Auth]
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Logout successful
+ *       401:
+ *         description: Unauthorized
  */

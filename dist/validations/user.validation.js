@@ -4,8 +4,21 @@ export const updateUserSchema = z.object({
         id: z.string().regex(/^\d+$/, 'ID must be a number').transform(Number),
     }),
     body: z.object({
-        firstName: z.string().min(3).max(30).optional(),
-        lastName: z.string().min(3).max(30).optional(),
+        email: z.string().email('Invalid email address').optional(),
+        password: z
+            .string()
+            .min(8, 'Password must be at least 8 characters long')
+            .optional(),
+        firstName: z
+            .string()
+            .min(3, 'First name must be at least 3 characters long')
+            .max(30, 'First name must be at most 30 characters long')
+            .optional(),
+        lastName: z
+            .string()
+            .min(3, 'Last name must be at least 3 characters long')
+            .max(30, 'Last name must be at most 30 characters long')
+            .optional(),
         role: z.enum(['SUPER_ADMIN', 'ADMIN', 'STAFF', 'CLIENT']).optional(),
         status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED', 'PENDING']).optional(),
         rights: z

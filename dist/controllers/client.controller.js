@@ -1,18 +1,55 @@
 import { ClientService } from '../services/client.service.js';
 import { catchAsync } from '../utils/catchAsync.js';
 const clientService = new ClientService();
-export const getDashboard = catchAsync(async (req, res, next) => {
+export const getDashboardData = catchAsync(async (req, res) => {
     const data = await clientService.getDashboardData(req.user.id);
     res.status(200).json({
-        status: 'success',
-        data,
+        success: true,
+        message: 'Dashboard data fetched successfully',
+        payload: data,
     });
 });
-export const regenerateApiKey = catchAsync(async (req, res, next) => {
+export const regenerateApiKey = catchAsync(async (req, res) => {
     const data = await clientService.regenerateApiKey(req.user.id);
     res.status(200).json({
-        status: 'success',
-        data,
+        success: true,
+        message: 'API Key regenerated successfully',
+        payload: data,
+    });
+});
+export const getAllClients = catchAsync(async (req, res) => {
+    const clients = await clientService.getAllClients();
+    res.status(200).json({
+        success: true,
+        message: 'Clients fetched successfully',
+        payload: clients,
+    });
+});
+export const getClientById = catchAsync(async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const client = await clientService.getClientById(id);
+    res.status(200).json({
+        success: true,
+        message: 'Client fetched successfully',
+        payload: client,
+    });
+});
+export const updateClient = catchAsync(async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const client = await clientService.updateClient(id, req.body);
+    res.status(200).json({
+        success: true,
+        message: 'Client updated successfully',
+        payload: client,
+    });
+});
+export const deleteClient = catchAsync(async (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    await clientService.deleteClient(id);
+    res.status(204).json({
+        success: true,
+        message: 'Client deleted successfully',
+        payload: null,
     });
 });
 //# sourceMappingURL=client.controller.js.map

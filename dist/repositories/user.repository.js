@@ -14,11 +14,6 @@ export class UserRepository {
         return prisma.user.findMany({
             where,
             orderBy: { createdAt: 'desc' },
-            include: {
-                userMenuRights: {
-                    include: { menu: true },
-                },
-            },
         });
     }
     async findByEmail(email) {

@@ -6,15 +6,15 @@ export const createMenu = catchAsync(async (req, res, next) => {
     return res.status(201).json({
         success: true,
         message: 'Menu created successfully',
-        data: menu,
+        payload: menu,
     });
 });
 export const getAllMenus = catchAsync(async (req, res, next) => {
-    const menus = await menuService.getAllMenus();
+    const menus = await menuService.getAllMenusFlat();
     return res.status(200).json({
         success: true,
         message: 'Menus fetched successfully',
-        data: menus,
+        payload: menus,
     });
 });
 export const getMenuById = catchAsync(async (req, res, next) => {
@@ -23,7 +23,7 @@ export const getMenuById = catchAsync(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         message: 'Menu fetched successfully',
-        data: menu,
+        payload: menu,
     });
 });
 export const updateMenu = catchAsync(async (req, res, next) => {
@@ -32,7 +32,7 @@ export const updateMenu = catchAsync(async (req, res, next) => {
     return res.status(200).json({
         success: true,
         message: 'Menu updated successfully',
-        data: menu,
+        payload: menu,
     });
 });
 export const deleteMenu = catchAsync(async (req, res, next) => {
@@ -41,7 +41,7 @@ export const deleteMenu = catchAsync(async (req, res, next) => {
     return res.status(204).json({
         success: true,
         message: 'Menu deleted successfully',
-        data: null,
+        payload: null,
     });
 });
 //# sourceMappingURL=menu.controller.js.map

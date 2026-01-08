@@ -1,5 +1,6 @@
 import { UserRepository } from '../repositories/user.repository.js';
 import { AppError } from '../utils/AppError.js';
+import bcrypt from 'bcryptjs';
 const userRepository = new UserRepository();
 export class UserService {
     async getAllUsers() {
@@ -18,7 +19,16 @@ export class UserService {
         if (!user) {
             throw new AppError('User not found', 404);
         }
+        if (data.email) {
+            const userExists = await userRepository.findByEmail(data.email);
+            if (userExists && userExists.id !== id) {
+                throw new AppError('Email already exists', 400);
+            }
+        }
         const { rights, ...userData } = data;
+        if (userData.password) {
+            userData.password = await bcrypt.hash(userData.password, 10);
+        }
         const updateData = {
             ...userData,
         };

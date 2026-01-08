@@ -2,11 +2,14 @@ import { ZodError } from 'zod';
 import { AppError } from '../utils/AppError.js';
 export const validate = (schema) => async (req, res, next) => {
     try {
-        await schema.parseAsync({
+        const validatedData = await schema.parseAsync({
             body: req.body,
             query: req.query,
             params: req.params,
         });
+        req.body = validatedData.body;
+        req.query = validatedData.query;
+        req.params = validatedData.params;
         next();
     }
     catch (error) {

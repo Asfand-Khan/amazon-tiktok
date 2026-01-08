@@ -11,6 +11,8 @@
  *   get:
  *     summary: Get all users
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: List of users
@@ -26,6 +28,10 @@
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin only
  */
 
 /**
@@ -34,6 +40,8 @@
  *   get:
  *     summary: Get user by ID
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -56,10 +64,16 @@
  *                   $ref: '#/components/schemas/User'
  *       404:
  *         description: User not found
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin only
  *
  *   patch:
  *     summary: Update user
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -85,10 +99,16 @@
  *     responses:
  *       200:
  *         description: User updated successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin only
  *
  *   delete:
  *     summary: Delete user
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -98,4 +118,8 @@
  *     responses:
  *       200:
  *         description: User deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden - Admin only
  */

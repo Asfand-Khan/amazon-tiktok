@@ -1,10 +1,14 @@
-import { Router } from 'express';
-import { getDashboard, regenerateApiKey, } from '../controllers/client.controller.js';
+import express from 'express';
+import * as clientController from '../controllers/client.controller.js';
 import { protect, restrictTo } from '../middlewares/auth.middleware.js';
-const router = Router();
+const router = express.Router();
 router.use(protect);
-router.use(restrictTo('CLIENT', 'SUPER_ADMIN', 'ADMIN'));
-router.get('/dashboard', getDashboard);
-router.post('/api-key/regenerate', regenerateApiKey);
+router.get('/dashboard', clientController.getDashboardData);
+router.post('/api-key/regenerate', clientController.regenerateApiKey);
+router.use(restrictTo('SUPER_ADMIN', 'ADMIN'));
+router.get('/', clientController.getAllClients);
+router.get('/:id', clientController.getClientById);
+router.patch('/:id', clientController.updateClient);
+router.delete('/:id', clientController.deleteClient);
 export default router;
 //# sourceMappingURL=client.routes.js.map
